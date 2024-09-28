@@ -55,9 +55,9 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleSidebar }) => {
         <ListItem button component={Link} to="/academic-exams">
           <ListItemText primary={t("academicExams")} />
         </ListItem>
-        <ListItem button component={Link} to="/admin">
+        {/* <ListItem button component={Link} to="/admin">
           <ListItemText primary={t("admin")} />
-        </ListItem>
+        </ListItem> */}
         {/* {isAuthenticated && (
           <>
             <ListItem button onClick={handleProjectsClick}>

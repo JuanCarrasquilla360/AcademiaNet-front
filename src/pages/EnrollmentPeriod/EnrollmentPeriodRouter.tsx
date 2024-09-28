@@ -1,11 +1,12 @@
-import { Typography } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
+import EnrollmentPeriodList from "./EnrollmentPeriodList";
+import EnrollmentPeriodCreate from "./EnrollmentPeriodCreate";
 
 const EnrollmentPeriodRouter = () => {
   return (
     <Routes>
-      <Route index element={<Typography>list</Typography>} />
-      <Route path="create" element={<Typography>create</Typography>} />
+      <Route index element={<EnrollmentPeriodList />} />
+      <Route path="create" element={<EnrollmentPeriodCreate />} />
     </Routes>
   );
 };

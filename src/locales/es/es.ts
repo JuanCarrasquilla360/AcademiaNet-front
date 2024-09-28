@@ -17,6 +17,11 @@ const es = () => ({
     createAcademicProgram: "Crear Programa Academico",
     institution: "Institución",
     category: "Categoria",
+    create: "Crear",
+    startDateEnrollment: "Fecha inicial inscripción",
+    endDateEnrollment: "Fecha final inscripción",
+    startDateExam: "Fecha inicial examen",
+    endDateExam: "Fecha final examen",
   },
 });
 export default es;

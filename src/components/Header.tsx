@@ -15,6 +15,7 @@ import itmLogo from "../assets/image.png";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { CssBaseline } from "@mui/material";
 import { useThemeContext } from "../ThemeContext.tsx";
+import { IconMoon, IconSun } from "@tabler/icons-react";
 interface HeaderProps {
   toggleSidebar: () => void;
 }
@@ -44,8 +45,7 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
   return (
     <AppBar
       position="fixed"
-      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1,bgcolor:"#5715c2" }}
-      
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "#5715c2" }}
     >
       <Toolbar>
         <Box>
@@ -60,14 +60,14 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" style={{ flexGrow: 1 }}></Typography>
-        <LanguageSwitcher/>
+        <LanguageSwitcher />
         <Box sx={{ padding: 2 }}>
           <CssBaseline />
-          <Button variant="contained" onClick={toggleTheme}>
-            Toggle Theme
+          <Button onClick={toggleTheme}>
+            {isDarkMode ? <IconMoon /> : <IconSun />}
           </Button>
         </Box>
-        {isAuthenticated ? (
+        {/* {isAuthenticated ? (
           <Button color="inherit" onClick={handleLogout}>
             {t("logout")}
           </Button>
@@ -75,9 +75,9 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
           <Button color="inherit" onClick={() => setOpen(true)}>
             {t("login")}
           </Button>
-        )}
+        )} */}
       </Toolbar>
-      <Modal open={open} onClose={() => setOpen(false)}>
+      {/* <Modal open={open} onClose={() => setOpen(false)}>
         <Box
           component={"form"}
           sx={{
@@ -115,7 +115,7 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
             Iniciar Sesión
           </Button>
         </Box>
-      </Modal>
+      </Modal> */}
     </AppBar>
   );
 };

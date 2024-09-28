@@ -36,7 +36,7 @@ const DataGridCustom = ({ columns, rows, title }: IDatagrid) => {
           variant="contained"
           onClick={() => navigate(`${window.location.pathname}/create`)}
         >
-          Create
+          {t("create")}
         </Button>
       </Toolbar>
       <DataGrid

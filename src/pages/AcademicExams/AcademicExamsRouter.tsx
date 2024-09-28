@@ -1,13 +1,14 @@
-import { Typography } from '@mui/material';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from "react-router-dom";
+import AcademicExamsCreate from "./AcademicExamsCreate";
+import AcademicExamsList from "./AcademicExamsList";
 
 const AcademicExamsRouter = () => {
-    return (
-        <Routes>
-          <Route index element={<Typography>list</Typography>} />
-          <Route path="create" element={<Typography>create</Typography>} />
-        </Routes>
-      );
-}
+  return (
+    <Routes>
+      <Route index element={<AcademicExamsList />} />
+      <Route path="create" element={<AcademicExamsCreate />} />
+    </Routes>
+  );
+};
 
-export default AcademicExamsRouter
+export default AcademicExamsRouter;
