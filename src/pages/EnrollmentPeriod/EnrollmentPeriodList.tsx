@@ -86,6 +86,7 @@ const EnrollmentPeriodList = () => {
       columns={columns}
       rows={rows}
       title={t("enrollmentPeriods")}
+      filterColumns={["name"]}
     />
   );
 };

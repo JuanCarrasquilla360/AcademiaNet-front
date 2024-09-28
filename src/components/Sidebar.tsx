@@ -6,10 +6,12 @@ import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useTranslation } from "react-i18next";
-import { Collapse } from "@mui/material";
+import { Collapse, ListItemIcon } from "@mui/material";
 import { useState } from "react";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import data from '../constants/data_resp.json'
+import data from "../constants/data_resp.json";
+import { useThemeContext } from "../ThemeContext";
+import { IconBook, IconCalendar, IconSchool, IconTextPlus } from "@tabler/icons-react";
 
 interface SidebarProps {
   open: boolean;
@@ -20,6 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleSidebar }) => {
   const { isAuthenticated } = useAuth();
   const { t } = useTranslation();
   const [openProjects, setOpenProjects] = useState(false);
+  const { isDarkMode } = useThemeContext();
 
   const handleProjectsClick = () => {
     setOpenProjects(!openProjects);
@@ -36,24 +39,83 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleSidebar }) => {
         "& .MuiDrawer-paper": {
           width: 240,
           boxSizing: "border-box",
-          top: "64px",
-          backgroundColor: "#FFF",
-          color: "#5715c2",
+          top: "70px",
+          backgroundColor: "var(--color-background-000)",
         },
       }}
     >
-      <List>
-        <ListItem button component={Link} to="/institution-config">
-          <ListItemText primary={t("institutions")} />
+      <List sx={{ px: 1 }}>
+        <ListItem
+          sx={{
+            bgcolor: "var(--color-background-100)",
+            mb: 1,
+            borderRadius: 1,
+          }}
+          button
+          component={Link}
+          to="/institution-config"
+        >
+          <ListItemIcon>
+            <IconSchool />
+          </ListItemIcon>
+          <ListItemText
+            sx={{ color: isDarkMode ? "#fff" : "#5715c2" }}
+            primary={t("institutions")}
+          />
         </ListItem>
-        <ListItem button component={Link} to="/enrollment-period">
-          <ListItemText primary={t("enrollmentPeriods")} />
+        <ListItem
+          sx={{
+            bgcolor: "var(--color-background-100)",
+            mb: 1,
+            borderRadius: 1,
+          }}
+          button
+          component={Link}
+          to="/enrollment-period"
+        >
+          <ListItemIcon>
+            <IconCalendar />
+          </ListItemIcon>
+          <ListItemText
+            sx={{ color: isDarkMode ? "#fff" : "#5715c2" }}
+            primary={t("enrollmentPeriods")}
+          />
         </ListItem>
-        <ListItem button component={Link} to="/academic-programs">
-          <ListItemText primary={t("academicPrograms")} />
+        <ListItem
+          sx={{
+            bgcolor: "var(--color-background-100)",
+            mb: 1,
+            borderRadius: 1,
+          }}
+          button
+          component={Link}
+          to="/academic-programs"
+        >
+          <ListItemIcon>
+            <IconBook />
+          </ListItemIcon>
+          <ListItemText
+            sx={{ color: isDarkMode ? "#fff" : "#5715c2" }}
+            primary={t("academicPrograms")}
+          />
         </ListItem>
-        <ListItem button component={Link} to="/academic-exams">
-          <ListItemText primary={t("academicExams")} />
+        <ListItem
+          sx={{
+            bgcolor: "var(--color-background-100)",
+            mb: 1,
+            borderRadius: 1,
+          }}
+          button
+          component={Link}
+          to="/academic-exams"
+        >
+          <ListItemIcon>
+            <IconTextPlus />
+          </ListItemIcon>
+          <ListItemText
+            sx={{ color: isDarkMode ? "#fff" : "#5715c2" }}
+            primary={t("academicExams")}
+          />
         </ListItem>
         {/* <ListItem button component={Link} to="/admin">
           <ListItemText primary={t("admin")} />

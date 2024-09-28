@@ -22,6 +22,10 @@ const en = () => ({
     endDateEnrollment: "End Date Enrollment",
     startDateExam: "Start Date Exam",
     endDateExam: "End Date Exam",
+    createEnrollmentPeriod: "Create Enrollment Period",
+    question: "Question",
+    min: "Min",
+    max: "Max",
   },
 });
 export default en;

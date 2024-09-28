@@ -59,9 +59,7 @@ const InstitutionsCreate: FC = () => {
             options={cities}
             size="small"
             fullWidth
-            // Mostrar el label en lugar del objeto completo
             getOptionLabel={(option) => option.label}
-            // Manejar los valores correctamente al seleccionar una opción
             value={
               cities.find(
                 (option) => option.value === formik.values.location

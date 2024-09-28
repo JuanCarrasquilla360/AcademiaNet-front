@@ -39,7 +39,10 @@ const App: FC = () => {
                 path="/academic-programs/*"
                 element={<AcademicProgramsRouter />}
               />
-              <Route path="/academic-exams" element={<AcademicExamsRouter />} />
+              <Route
+                path="/academic-exams/*"
+                element={<AcademicExamsRouter />}
+              />
               <Route path="/admin" element={<AdminRouter />} />
               <Route path="*" element={<NotFoundPage />} />
               <Route

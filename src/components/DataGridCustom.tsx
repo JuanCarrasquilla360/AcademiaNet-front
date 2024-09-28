@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { IDatagrid } from "../interfaces/datagrid";
 import { useTranslation } from "react-i18next";
 
-const DataGridCustom = ({ columns, rows, title }: IDatagrid) => {
+const DataGridCustom = ({ columns, rows, title, filterColumns }: IDatagrid) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
@@ -15,7 +15,9 @@ const DataGridCustom = ({ columns, rows, title }: IDatagrid) => {
   };
 
   const filteredRows = rows.filter((row) =>
-    row.name.toLowerCase().includes(filter.toLowerCase())
+    filterColumns.some((col) =>
+      row[col]?.toString().toLowerCase().includes(filter.toLowerCase())
+    )
   );
 
   return (

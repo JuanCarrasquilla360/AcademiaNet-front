@@ -8,8 +8,16 @@ const InstitutionsList = () => {
     { field: "name", headerName: `${t("name")}`, flex: 1 },
     { field: "location", headerName: `${t("location")}`, flex: 1 },
     { field: "description", headerName: `${t("description")}`, flex: 1 },
-    { field: "academicPrograms", headerName: `${t("academicPrograms")}`, flex: 1 },
-    { field: "enrollmentPeriods", headerName: `${t("enrollmentPeriods")}`, flex: 1 },
+    {
+      field: "academicPrograms",
+      headerName: `${t("academicPrograms")}`,
+      flex: 1,
+    },
+    {
+      field: "enrollmentPeriods",
+      headerName: `${t("enrollmentPeriods")}`,
+      flex: 1,
+    },
   ];
 
   const rows = [
@@ -76,7 +84,12 @@ const InstitutionsList = () => {
   ];
 
   return (
-    <DataGridCustom columns={columns} rows={rows} title={t("institutions")} />
+    <DataGridCustom
+      columns={columns}
+      rows={rows}
+      title={t("institutions")}
+      filterColumns={["name"]}
+    />
   );
 };
 

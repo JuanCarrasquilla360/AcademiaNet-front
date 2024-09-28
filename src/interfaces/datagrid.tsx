@@ -4,4 +4,5 @@ export interface IDatagrid {
   columns: GridColDef[];
   rows: any[];
   title: string;
+  filterColumns: string[];
 }

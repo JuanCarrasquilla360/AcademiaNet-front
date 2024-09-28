@@ -1,17 +1,14 @@
-// src/components/Header.tsx
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import Modal from "@mui/material/Modal";
-import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
-import itmLogo from "../assets/image.png";
+import itmLogo from "../assets/Academia_net.svg";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { CssBaseline } from "@mui/material";
 import { useThemeContext } from "../ThemeContext.tsx";
@@ -45,17 +42,18 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
   return (
     <AppBar
       position="fixed"
-      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "#5715c2" }}
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "var(--color-main-150)" }}
     >
       <Toolbar>
         <Box>
-          <img src={itmLogo} alt="" height={70} />
+          <img src={itmLogo} alt="" width={200} />
         </Box>
         <IconButton
           edge="start"
           color="inherit"
           aria-label="menu"
           onClick={toggleSidebar}
+          sx={{ml: 1}}
         >
           <MenuIcon />
         </IconButton>
@@ -63,8 +61,17 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
         <LanguageSwitcher />
         <Box sx={{ padding: 2 }}>
           <CssBaseline />
-          <Button onClick={toggleTheme}>
-            {isDarkMode ? <IconMoon /> : <IconSun />}
+          <Button
+            onClick={toggleTheme}
+            sx={{
+              backgroundColor: "#fff!important",
+              "&:hover": {
+                backgroundColor: "initial",
+              },
+              color: "var(--color-main-150)"
+            }}
+          >
+            {!isDarkMode ? <IconMoon /> : <IconSun />}
           </Button>
         </Box>
         {/* {isAuthenticated ? (

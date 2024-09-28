@@ -89,6 +89,7 @@ const AcademicProgramsList = () => {
       columns={columns}
       rows={rows}
       title={t("academicPrograms")}
+      filterColumns={["name"]}
     />
   );
 };

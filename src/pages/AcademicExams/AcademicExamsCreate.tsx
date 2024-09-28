@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   TextField,
-  Autocomplete,
   Button,
   Grid,
   Typography,
@@ -14,14 +13,14 @@ import { useTranslation } from "react-i18next";
 const AcademicExamsCreate: FC = () => {
   const { t } = useTranslation();
   const [initialValues, setInitialValues] = useState({
-    name: "",
-    description: "",
-    location: "",
+    question: "",
+    min: "",
+    max: "",
   });
   const validationSchema = Yup.object({
-    name: Yup.string().required(t("requiredField")),
-    description: Yup.string().required(t("requiredField")),
-    location: Yup.string().required(t("requiredField")),
+    question: Yup.string().required(t("requiredField")),
+    min: Yup.string().required(t("requiredField")),
+    max: Yup.string().required(t("requiredField")),
   });
 
   const formik = useFormik({
@@ -32,70 +31,51 @@ const AcademicExamsCreate: FC = () => {
     },
   });
 
-  const cities = [{ label: "Medellin", value: "123" }];
-
   return (
     <form onSubmit={formik.handleSubmit}>
       <Typography>{t("createInstitution")}</Typography>
       <Divider sx={{ my: 2 }} />
       <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <TextField
-            id="name"
-            name="name"
-            size="small"
-            fullWidth
-            label={t("name")}
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Autocomplete
-            id="institution"
-            options={cities}
-            size="small"
-            fullWidth
-            // Mostrar el label en lugar del objeto completo
-            getOptionLabel={(option) => option.label}
-            // Manejar los valores correctamente al seleccionar una opción
-            value={
-              cities.find(
-                (option) => option.value === formik.values.location
-              ) || null
-            }
-            onChange={(_, value) =>
-              formik.setFieldValue("location", value?.value || "")
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label={t("location")}
-                error={
-                  formik.touched.location && Boolean(formik.errors.location)
-                }
-                helperText={formik.touched.location && formik.errors.location}
-              />
-            )}
-          />
-        </Grid>
         <Grid item xs={12}>
           <TextField
-            id="description"
-            name="description"
-            label={t("description")}
+            id="question"
+            name="question"
             size="small"
             fullWidth
-            value={formik.values.description}
+            label={t("question")}
+            value={formik.values.question}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={
-              formik.touched.description && Boolean(formik.errors.description)
-            }
-            helperText={formik.touched.description && formik.errors.description}
+            error={formik.touched.question && Boolean(formik.errors.question)}
+            helperText={formik.touched.question && formik.errors.question}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="min"
+            name="min"
+            label={t("min")}
+            size="small"
+            fullWidth
+            value={formik.values.min}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.min && Boolean(formik.errors.min)}
+            helperText={formik.touched.min && formik.errors.min}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="max"
+            name="max"
+            label={t("max")}
+            size="small"
+            fullWidth
+            value={formik.values.max}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.max && Boolean(formik.errors.max)}
+            helperText={formik.touched.max && formik.errors.max}
           />
         </Grid>
       </Grid>

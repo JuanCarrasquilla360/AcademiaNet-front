@@ -22,6 +22,10 @@ const es = () => ({
     endDateEnrollment: "Fecha final inscripción",
     startDateExam: "Fecha inicial examen",
     endDateExam: "Fecha final examen",
+    createEnrollmentPeriod: "Crear periodo de inscripción",
+    question: "Pregunta",
+    min: "Min",
+    max: "Max",
   },
 });
 export default es;
