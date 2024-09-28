@@ -13,6 +13,8 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import itmLogo from "../assets/image.png";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { CssBaseline } from "@mui/material";
+import { useThemeContext } from "../ThemeContext.tsx";
 interface HeaderProps {
   toggleSidebar: () => void;
 }
@@ -24,6 +26,7 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { isDarkMode, toggleTheme } = useThemeContext();
 
   const handleLogin = () => {
     if (login(username, password)) {
@@ -58,6 +61,12 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
         </IconButton>
         <Typography variant="h6" style={{ flexGrow: 1 }}></Typography>
         <LanguageSwitcher/>
+        <Box sx={{ padding: 2 }}>
+          <CssBaseline />
+          <Button variant="contained" onClick={toggleTheme}>
+            Toggle Theme
+          </Button>
+        </Box>
         {isAuthenticated ? (
           <Button color="inherit" onClick={handleLogout}>
             {t("logout")}
