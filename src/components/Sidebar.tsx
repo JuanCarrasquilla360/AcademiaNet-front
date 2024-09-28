@@ -44,16 +44,16 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleSidebar }) => {
     >
       <List>
         <ListItem button component={Link} to="/institution-config">
-          <ListItemText primary={t("institution_config")} />
+          <ListItemText primary={t("institutions")} />
         </ListItem>
         <ListItem button component={Link} to="/enrollment-period">
-          <ListItemText primary={t("enrollment_period")} />
+          <ListItemText primary={t("enrollmentPeriods")} />
         </ListItem>
         <ListItem button component={Link} to="/academic-programs">
-          <ListItemText primary={t("academic_programs")} />
+          <ListItemText primary={t("academicPrograms")} />
         </ListItem>
         <ListItem button component={Link} to="/academic-exams">
-          <ListItemText primary={t("academic_exams")} />
+          <ListItemText primary={t("academicExams")} />
         </ListItem>
         <ListItem button component={Link} to="/admin">
           <ListItemText primary={t("admin")} />

@@ -3,8 +3,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, TextField, Toolbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { IDatagrid } from "../interfaces/datagrid";
+import { useTranslation } from "react-i18next";
 
 const DataGridCustom = ({ columns, rows, title }: IDatagrid) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
 
@@ -24,7 +26,7 @@ const DataGridCustom = ({ columns, rows, title }: IDatagrid) => {
         </Typography>
         <TextField
           variant="standard"
-          placeholder="Filtrar por nombre"
+          placeholder={t("filterName")}
           value={filter}
           size="small"
           onChange={handleFilterChange}

@@ -41,9 +41,7 @@ const Layout: FC = () => {
             marginLeft: sidebarOpen ? "0px" : "-240px",
             transition: "margin-left 0.3s ease",
             marginTop: "74px",
-            backgroundColor: isDarkMode
-              ? "var(--color-background-200)"
-              : "var(--color-background-300)",
+            backgroundColor: "var(--color-background-000)",
           }}
         >
           <Box
@@ -51,11 +49,7 @@ const Layout: FC = () => {
             sx={{ margin: 4 }}
             border={"0px solid var(--color-border-100)"}
             borderRadius={2}
-            bgcolor={
-              isDarkMode
-                ? "var(--color-background-400)"
-                : "var(--color-background-000)"
-            }
+            bgcolor="var(--color-background-100)"
             style={{
               transition: "background-color 0.3s ease, color 0.3s ease",
             }}

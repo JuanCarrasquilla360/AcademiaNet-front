@@ -6,7 +6,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import NotFoundPage from "./pages/NotFoundPage";
 import { Typography } from "@mui/material";
-import InstitutionConfigRouter from "./pages/InstitutionConfig/InstitutionConfigRouter";
+import InstitutionConfigRouter from "./pages/Institutions/InstitutionsRouter";
 import EnrollmentPeriodRouter from "./pages/EnrollmentPeriod/EnrollmentPeriodRouter";
 import AcademicProgramsRouter from "./pages/AcademicPrograms/AcademicProgramsRouter";
 import AcademicExamsRouter from "./pages/AcademicExams/AcademicExamsRouter";

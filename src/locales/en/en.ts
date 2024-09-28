@@ -1,11 +1,22 @@
 const en = () => ({
   translation: {
-    institution_config: "Institutional Config",
-    enrollment_period: "Enrollment Period",
-    academic_programs: "Academic Programs",
     admin: "Admin",
-    academic_exams: "Academic Exams",
-    login: "Login"
+    academicExams: "Academic Exams",
+    login: "Login",
+    id: "Id",
+    name: "Name",
+    location: "Location",
+    description: "Description",
+    institutions: "Institutions",
+    academicPrograms: "Academic Programs",
+    enrollmentPeriods: "Enrollment Periods",
+    requiredField: "This field is required",
+    createInstitution: "Create Institution",
+    save: "Save",
+    filterName: "Filter by name",
+    createAcademicProgram: "Create Academic Program",
+    institution: "Institution",
+    category: "Category",
   },
 });
 export default en;
