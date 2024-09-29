@@ -1,8 +1,11 @@
 import { useTranslation } from "react-i18next";
 import DataGridCustom from "../../components/DataGridCustom";
+import useAxios from "../../hooks/useAxios";
+import { useEffect } from "react";
 
 const AcademicProgramsList = () => {
   const { t } = useTranslation();
+  const axiosInstance = useAxios();
   const columns = [
     { field: "id", headerName: `${t("id")}`, flex: 1 },
     { field: "name", headerName: `${t("name")}`, flex: 1 },
@@ -83,6 +86,14 @@ const AcademicProgramsList = () => {
       institution: "Rhode Island School of Design",
     },
   ];
+  const getAcademicPrograms = async () => {
+    const { data } = await axiosInstance.get("AcademicPrograms");
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getAcademicPrograms()
+  }, [])
 
   return (
     <DataGridCustom

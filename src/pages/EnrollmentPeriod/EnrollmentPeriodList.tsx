@@ -1,8 +1,11 @@
 import DataGridCustom from "../../components/DataGridCustom";
 import { useTranslation } from "react-i18next";
+import useAxios from "../../hooks/useAxios";
+import { useEffect } from "react";
 
 const EnrollmentPeriodList = () => {
   const { t } = useTranslation();
+  const axiosInstance = useAxios();
   const columns = [
     { field: "id", headerName: `${t("id")}`, flex: 1 },
     { field: "name", headerName: `${t("name")}`, flex: 1 },
@@ -80,6 +83,14 @@ const EnrollmentPeriodList = () => {
       institution: "California Institute of Technology",
     },
   ];
+  const getEnrollmentPeriods = async () => {
+    const { data } = await axiosInstance.get("EnrollmentPeriods");
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getEnrollmentPeriods()
+  }, [])
 
   return (
     <DataGridCustom

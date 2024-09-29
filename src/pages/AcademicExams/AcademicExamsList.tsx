@@ -1,8 +1,11 @@
 import DataGridCustom from "../../components/DataGridCustom";
 import { useTranslation } from "react-i18next";
+import useAxios from "../../hooks/useAxios";
+import { useEffect } from "react";
 
 const AcademicExamsList = () => {
   const { t } = useTranslation();
+  const axiosInstance = useAxios();
   const columns = [
     { field: "id", headerName: `${t("id")}`, flex: 1 },
     { field: "question", headerName: `${t("question")}`, flex: 1 },
@@ -17,6 +20,14 @@ const AcademicExamsList = () => {
     { id: 4, question: "Rate your experience from 1 to 5", min: 1, max: 5 },
     { id: 5, question: "How many countries have you visited?", min: 0, max: 50 },
   ];
+  const getAcademicExams = async () => {
+    const { data } = await axiosInstance.get("Exams");
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getAcademicExams()
+  }, [])
   
   return (
     <DataGridCustom columns={columns} rows={rows} title={t("academicExams")} filterColumns={["question"]}/>

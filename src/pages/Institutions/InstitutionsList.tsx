@@ -1,8 +1,11 @@
 import DataGridCustom from "../../components/DataGridCustom";
 import { useTranslation } from "react-i18next";
+import useAxios from "../../hooks/useAxios";
+import { useEffect } from "react";
 
 const InstitutionsList = () => {
   const { t } = useTranslation();
+  const axiosInstance = useAxios();
   const columns = [
     { field: "id", headerName: `${t("id")}`, flex: 1 },
     { field: "name", headerName: `${t("name")}`, flex: 1 },
@@ -19,6 +22,16 @@ const InstitutionsList = () => {
       flex: 1,
     },
   ];
+
+  const getInstitutions = async () => {
+    const { data } = await axiosInstance.get("Institutions");
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getInstitutions()
+  }, [])
+  
 
   const rows = [
     {
