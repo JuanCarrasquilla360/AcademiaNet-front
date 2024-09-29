@@ -1,17 +1,15 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  TextField,
-  Button,
-  Grid,
-  Typography,
-  Divider,
-} from "@mui/material";
+import { TextField, Button, Grid, Typography, Divider } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import academicExamRepository from "../../repositories/academicExamRepository";
+import { useParams } from "react-router-dom";
 
 const AcademicExamsCreate: FC = () => {
   const { t } = useTranslation();
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
   const [initialValues, setInitialValues] = useState({
     question: "",
     min: "",
@@ -22,13 +20,47 @@ const AcademicExamsCreate: FC = () => {
     min: Yup.string().required(t("requiredField")),
     max: Yup.string().required(t("requiredField")),
   });
+  const getAcademicExam = async () => {
+    setLoading(true);
+    try {
+      const data = await academicExamRepository().getById(id);
+      setInitialValues({
+        question: data.question,
+        min: data.minValue,
+        max: data.maxValue,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (id) {
+      getAcademicExam();
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      console.log("Valores del formulario:", values);
+    onSubmit: async (values) => {
+      try {
+        if (id) {
+          await academicExamRepository().put({
+            ...values,
+            examID: id,
+          });
+          return;
+        }
+        await academicExamRepository().post(values);
+      } catch (err) {
+        console.error(err);
+      }
     },
+    validateOnBlur: false,
+    validateOnMount: true,
+    enableReinitialize: true,
   });
 
   return (

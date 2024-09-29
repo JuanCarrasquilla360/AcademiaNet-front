@@ -7,6 +7,7 @@ const EnrollmentPeriodRouter = () => {
     <Routes>
       <Route index element={<EnrollmentPeriodList />} />
       <Route path="create" element={<EnrollmentPeriodCreate />} />
+      <Route path="create/:id" element={<EnrollmentPeriodCreate />} />
     </Routes>
   );
 };

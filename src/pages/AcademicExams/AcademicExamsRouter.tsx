@@ -7,6 +7,7 @@ const AcademicExamsRouter = () => {
     <Routes>
       <Route index element={<AcademicExamsList />} />
       <Route path="create" element={<AcademicExamsCreate />} />
+      <Route path="create/:id" element={<AcademicExamsCreate />} />
     </Routes>
   );
 };

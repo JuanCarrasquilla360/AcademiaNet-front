@@ -1,11 +1,16 @@
 import DataGridCustom from "../../components/DataGridCustom";
 import { useTranslation } from "react-i18next";
-import useAxios from "../../hooks/useAxios";
-import { useEffect } from "react";
+
+import { useEffect, useState } from "react";
+import moment from "moment";
+import enrollmentPeriodsRepository from "../../repositories/enrollmentPeriodsRepository";
+import LoadingComponent from "../../components/LoadingComponent";
+import { Box } from "@mui/material";
 
 const EnrollmentPeriodList = () => {
   const { t } = useTranslation();
-  const axiosInstance = useAxios();
+  const [loading, setLoading] = useState(false);
+  const [rows, setRows] = useState([]);
   const columns = [
     { field: "id", headerName: `${t("id")}`, flex: 1 },
     { field: "name", headerName: `${t("name")}`, flex: 1 },
@@ -29,76 +34,50 @@ const EnrollmentPeriodList = () => {
       headerName: `${t("endDateExam")}`,
       flex: 1,
     },
-    {
-      field: "institution",
-      headerName: `${t("institution")}`,
-      flex: 1,
-    },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      name: "Bachelor of Science in Computer Science",
-      startDateEnrollment: "2024-01-01",
-      endDateEnrollment: "2024-01-15",
-      startDateExam: "2024-02-01",
-      endDateExam: "2024-02-05",
-      institution: "MIT",
-    },
-    {
-      id: 2,
-      name: "Master of Business Administration",
-      startDateEnrollment: "2024-03-01",
-      endDateEnrollment: "2024-03-20",
-      startDateExam: "2024-04-01",
-      endDateExam: "2024-04-10",
-      institution: "Harvard Business School",
-    },
-    {
-      id: 3,
-      name: "Bachelor of Arts in Psychology",
-      startDateEnrollment: "2024-05-05",
-      endDateEnrollment: "2024-05-25",
-      startDateExam: "2024-06-01",
-      endDateExam: "2024-06-10",
-      institution: "Stanford University",
-    },
-    {
-      id: 4,
-      name: "Doctor of Medicine",
-      startDateEnrollment: "2024-07-01",
-      endDateEnrollment: "2024-07-20",
-      startDateExam: "2024-08-01",
-      endDateExam: "2024-08-10",
-      institution: "Johns Hopkins University",
-    },
-    {
-      id: 5,
-      name: "Bachelor of Engineering in Civil Engineering",
-      startDateEnrollment: "2024-09-01",
-      endDateEnrollment: "2024-09-20",
-      startDateExam: "2024-10-01",
-      endDateExam: "2024-10-10",
-      institution: "California Institute of Technology",
-    },
-  ];
   const getEnrollmentPeriods = async () => {
-    const { data } = await axiosInstance.get("EnrollmentPeriods");
-    console.log(data);
+    setLoading(true);
+    try {
+      const data = await enrollmentPeriodsRepository().get();
+      setRows(
+        data.map((ep) => ({
+          ...ep,
+          id: ep.enrollmentPeriodID,
+          startDateEnrollment: moment(ep.startDateEnrollment).format(
+            "YYYY-DD-MM"
+          ),
+          endDateEnrollment: moment(ep.endDateEnrollment).format("YYYY-DD-MM"),
+          startDateExam: moment(ep.startDateExam).format("YYYY-DD-MM"),
+          endDateExam: moment(ep.endDateExam).format("YYYY-DD-MM"),
+          
+          name: ep.periodName,
+        }))
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    getEnrollmentPeriods()
-  }, [])
+    getEnrollmentPeriods();
+  }, []);
 
   return (
-    <DataGridCustom
-      columns={columns}
-      rows={rows}
-      title={t("enrollmentPeriods")}
-      filterColumns={["name"]}
-    />
+    <Box>
+      {loading ? (
+        <LoadingComponent />
+      ) : (
+        <DataGridCustom
+          columns={columns}
+          rows={rows}
+          title={t("enrollmentPeriods")}
+          filterColumns={["name"]}
+        />
+      )}
+    </Box>
   );
 };
 

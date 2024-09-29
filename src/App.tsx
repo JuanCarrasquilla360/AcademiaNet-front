@@ -28,7 +28,7 @@ const App: FC = () => {
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
               <Route
-                path="/institution-config/*"
+                path="/institution/*"
                 element={<InstitutionConfigRouter />}
               />
               <Route

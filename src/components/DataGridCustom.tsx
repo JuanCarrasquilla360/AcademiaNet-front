@@ -45,11 +45,14 @@ const DataGridCustom = ({ columns, rows, title, filterColumns }: IDatagrid) => {
         rows={filteredRows}
         columns={columns}
         pagination
-        pageSizeOptions={[10, 20, 50]} // Cambiamos las opciones de filas por página
+        onRowClick={(row) =>
+          navigate(`${window.location.pathname}/create/${row.id}`)
+        }
+        pageSizeOptions={[10, 20, 50]}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 10, // Establecemos el tamaño de página inicial
+              pageSize: 10,
             },
           },
         }}

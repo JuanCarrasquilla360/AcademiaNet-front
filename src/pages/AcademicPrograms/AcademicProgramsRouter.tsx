@@ -7,6 +7,7 @@ const AcademicProgramsRouter = () => {
     <Routes>
       <Route index element={<AcademicProgramsList />} />
       <Route path="create" element={<AcademicProgramsCreate />} />
+      <Route path="create/:id" element={<AcademicProgramsCreate />} />
     </Routes>
   );
 };

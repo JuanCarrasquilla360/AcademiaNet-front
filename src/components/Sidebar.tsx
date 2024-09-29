@@ -53,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleSidebar }) => {
           }}
           button
           component={Link}
-          to="/institution-config"
+          to="/institution"
         >
           <ListItemIcon>
             <IconSchool />

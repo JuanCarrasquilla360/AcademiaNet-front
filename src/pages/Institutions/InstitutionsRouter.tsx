@@ -7,6 +7,7 @@ const InstitutionConfigRouter = () => {
     <Routes>
       <Route index element={<InstitutionsList />} />
       <Route path="create" element={<InstitutionsCreate />} />
+      <Route path="create/:id" element={<InstitutionsCreate />} />
     </Routes>
   );
 };
