@@ -26,6 +26,7 @@ const es = () => ({
     question: "Pregunta",
     min: "Min",
     max: "Max",
+    createExam: "Create Exam",
   },
 });
 export default es;
