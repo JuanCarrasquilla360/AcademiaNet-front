@@ -13,11 +13,7 @@ import AcademicExamsRouter from "./pages/AcademicExams/AcademicExamsRouter";
 import AdminRouter from "./pages/Admin/AdminRouter";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-
-const ProtectedRoute: FC<{ children: ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <>{children}</> : <Navigate to="/logged" />;
-};
+import PrivateRoute from "./components/PrivateRoute"; // Importamos el nuevo PrivateRoute
 
 const App: FC = () => {
   return (
@@ -27,30 +23,61 @@ const App: FC = () => {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
+
+              {/* Rutas para roles de usuario normal */}
               <Route
                 path="/institution/*"
-                element={<InstitutionConfigRouter />}
+                element={
+                  <PrivateRoute allowedRoles={["user", "admin"]}>
+                    <InstitutionConfigRouter />
+                  </PrivateRoute>
+                }
               />
               <Route
                 path="/enrollment-period/*"
-                element={<EnrollmentPeriodRouter />}
+                element={
+                  <PrivateRoute allowedRoles={["user", "admin"]}>
+                    <EnrollmentPeriodRouter />
+                  </PrivateRoute>
+                }
               />
               <Route
                 path="/academic-programs/*"
-                element={<AcademicProgramsRouter />}
+                element={
+                  <PrivateRoute allowedRoles={["user", "admin"]}>
+                    <AcademicProgramsRouter />
+                  </PrivateRoute>
+                }
               />
               <Route
                 path="/academic-exams/*"
-                element={<AcademicExamsRouter />}
+                element={
+                  <PrivateRoute allowedRoles={["user", "admin"]}>
+                    <AcademicExamsRouter />
+                  </PrivateRoute>
+                }
               />
-              <Route path="/admin" element={<AdminRouter />} />
+
+              {/* Ruta para administradores */}
+              <Route
+                path="/admin"
+                element={
+                  <PrivateRoute allowedRoles={["admin"]}>
+                    <AdminRouter />
+                  </PrivateRoute>
+                }
+              />
+
+              {/* Ruta para cuando no encuentra la página */}
               <Route path="*" element={<NotFoundPage />} />
+
+              {/* Ruta para usuarios logueados (disponible para cualquier usuario autenticado) */}
               <Route
                 path="/logged"
                 element={
-                  <ProtectedRoute>
+                  <PrivateRoute allowedRoles={["admin", "guest"]}>
                     <Typography>loggeado</Typography>
-                  </ProtectedRoute>
+                  </PrivateRoute>
                 }
               />
             </Route>

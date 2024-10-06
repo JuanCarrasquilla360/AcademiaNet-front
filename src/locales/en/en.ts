@@ -26,7 +26,10 @@ const en = () => ({
     question: "Question",
     min: "Min",
     max: "Max",
-    createExam: "Crear Examen",
+    createExam: "Create Exam",
+    email: "Email",
+    password: "Password",
+    logout: "Logout"
   },
 });
 export default en;

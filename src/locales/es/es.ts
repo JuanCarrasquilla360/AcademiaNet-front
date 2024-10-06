@@ -26,7 +26,10 @@ const es = () => ({
     question: "Pregunta",
     min: "Min",
     max: "Max",
-    createExam: "Create Exam",
+    createExam: "Crear Examen",
+    email: "Correo Electronico",
+    password: "Contraseña",
+    logout: "Cerrar Sesion"
   },
 });
 export default es;

@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import itmLogo from "../assets/Academia_net.svg";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, Modal, TextField } from "@mui/material";
 import { useThemeContext } from "../ThemeContext.tsx";
 import { IconMoon, IconSun } from "@tabler/icons-react";
 interface HeaderProps {
@@ -26,8 +26,10 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
   const [error, setError] = useState("");
   const { isDarkMode, toggleTheme } = useThemeContext();
 
-  const handleLogin = () => {
-    if (login(username, password)) {
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const loginResp = await login(username, password);
+    if (loginResp) {
       setOpen(false);
       setError("");
     } else {
@@ -42,7 +44,10 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
   return (
     <AppBar
       position="fixed"
-      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "var(--color-main-150)" }}
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+        bgcolor: "var(--color-main-150)",
+      }}
     >
       <Toolbar>
         <Box>
@@ -53,7 +58,7 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
           color="inherit"
           aria-label="menu"
           onClick={toggleSidebar}
-          sx={{ml: 1}}
+          sx={{ ml: 1 }}
         >
           <MenuIcon />
         </IconButton>
@@ -68,13 +73,13 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
               "&:hover": {
                 backgroundColor: "initial",
               },
-              color: "var(--color-main-150)"
+              color: "var(--color-main-150)",
             }}
           >
             {!isDarkMode ? <IconMoon /> : <IconSun />}
           </Button>
         </Box>
-        {/* {isAuthenticated ? (
+        {isAuthenticated ? (
           <Button color="inherit" onClick={handleLogout}>
             {t("logout")}
           </Button>
@@ -82,9 +87,10 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
           <Button color="inherit" onClick={() => setOpen(true)}>
             {t("login")}
           </Button>
-        )} */}
+        )}
       </Toolbar>
-      {/* <Modal open={open} onClose={() => setOpen(false)}>
+      {/*  arreglar el form con formik*/}
+      <Modal open={open} onClose={() => setOpen(false)}>
         <Box
           component={"form"}
           sx={{
@@ -102,12 +108,12 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
           }}
         >
           <TextField
-            label="Usuario"
+            label={t("email")}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
-            label="Contraseña"
+            label={t("password")}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -119,10 +125,10 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
             color="primary"
             onClick={handleLogin}
           >
-            Iniciar Sesión
+            {t("login")}
           </Button>
         </Box>
-      </Modal> */}
+      </Modal>
     </AppBar>
   );
 };
