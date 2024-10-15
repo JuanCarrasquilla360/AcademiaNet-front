@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleSidebar }) => {
       }}
     >
       <List sx={{ px: 1 }}>
-        {(userRole === "admin" || userRole === "user") && (
+        {(userRole === "Admin" || userRole === "User") && (
           <ListItem
             sx={{
               bgcolor: "var(--color-background-100)",
@@ -62,7 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleSidebar }) => {
             />
           </ListItem>
         )}
-        {userRole === "admin" && (
+        {userRole === "Admin" && (
           <ListItem
             sx={{
               bgcolor: "var(--color-background-100)",
@@ -102,7 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleSidebar }) => {
             />
           </ListItem>
         )}
-        {(userRole === "admin" || userRole === "user")  && (
+        {(userRole === "Admin" || userRole === "User") && (
           <ListItem
             sx={{
               bgcolor: "var(--color-background-100)",

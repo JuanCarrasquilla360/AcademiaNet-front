@@ -1,7 +1,5 @@
-import { FC, ReactNode } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import { useAuth } from "./hooks/useAuth";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -14,6 +12,7 @@ import AdminRouter from "./pages/Admin/AdminRouter";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import PrivateRoute from "./components/PrivateRoute"; // Importamos el nuevo PrivateRoute
+import { FC } from "react";
 
 const App: FC = () => {
   return (
@@ -28,7 +27,7 @@ const App: FC = () => {
               <Route
                 path="/institution/*"
                 element={
-                  <PrivateRoute allowedRoles={["user", "admin"]}>
+                  <PrivateRoute allowedRoles={["User", "Admin"]}>
                     <InstitutionConfigRouter />
                   </PrivateRoute>
                 }
@@ -36,7 +35,7 @@ const App: FC = () => {
               <Route
                 path="/enrollment-period/*"
                 element={
-                  <PrivateRoute allowedRoles={["user", "admin"]}>
+                  <PrivateRoute allowedRoles={["User", "Admin"]}>
                     <EnrollmentPeriodRouter />
                   </PrivateRoute>
                 }
@@ -44,7 +43,7 @@ const App: FC = () => {
               <Route
                 path="/academic-programs/*"
                 element={
-                  <PrivateRoute allowedRoles={["user", "admin"]}>
+                  <PrivateRoute allowedRoles={["User", "Admin"]}>
                     <AcademicProgramsRouter />
                   </PrivateRoute>
                 }
@@ -52,7 +51,7 @@ const App: FC = () => {
               <Route
                 path="/academic-exams/*"
                 element={
-                  <PrivateRoute allowedRoles={["user", "admin"]}>
+                  <PrivateRoute allowedRoles={["User", "Admin"]}>
                     <AcademicExamsRouter />
                   </PrivateRoute>
                 }
@@ -62,7 +61,7 @@ const App: FC = () => {
               <Route
                 path="/admin"
                 element={
-                  <PrivateRoute allowedRoles={["admin"]}>
+                  <PrivateRoute allowedRoles={["Admin"]}>
                     <AdminRouter />
                   </PrivateRoute>
                 }
@@ -75,7 +74,7 @@ const App: FC = () => {
               <Route
                 path="/logged"
                 element={
-                  <PrivateRoute allowedRoles={["admin", "guest"]}>
+                  <PrivateRoute allowedRoles={["Admin", "guest"]}>
                     <Typography>loggeado</Typography>
                   </PrivateRoute>
                 }
