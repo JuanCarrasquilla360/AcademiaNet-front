@@ -15,6 +15,7 @@ import PrivateRoute from "./components/PrivateRoute"; // Importamos el nuevo Pri
 import { FC } from "react";
 import RegisterForm from "./pages/Register/RegisterForm";
 import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
+import EditProfileForm from "./pages/EditProfile/EditProfileForm";
 
 const App: FC = () => {
   return (
@@ -29,6 +30,14 @@ const App: FC = () => {
               <Route path="/confirm-email" element={<ConfirmEmail />} />
 
               {/* Rutas para roles de usuario normal */}
+              <Route
+                path="/edit-user"
+                element={
+                  <PrivateRoute allowedRoles={["User", "Admin"]}>
+                    <EditProfileForm />
+                  </PrivateRoute>
+                }
+              />
               <Route
                 path="/institution/*"
                 element={

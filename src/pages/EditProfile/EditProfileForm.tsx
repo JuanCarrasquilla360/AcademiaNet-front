@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -10,12 +10,11 @@ import {
   Avatar,
 } from "@mui/material";
 import { useThemeContext } from "../../ThemeContext";
-import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
-import { axiosInstance } from "../../services/httpService";
+import i18n from "../../i18n";
+import ChangePasswordModal from "../../components/ChangePasswordModal ";
+import { useAuth } from "../../hooks/useAuth";
 
-// Esquema de validación con Yup
 const validationSchema = Yup.object({
   firstName: Yup.string().required(i18n.t("required")),
   lastName: Yup.string().required(i18n.t("required")),
@@ -26,45 +25,35 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email(i18n.t("invalidEmail"))
     .required(i18n.t("required")),
-  password: Yup.string()
-    .required(i18n.t("required"))
-    .min(8, i18n.t("min8Character")),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], i18n.t("doNotMatch"))
-    .required(i18n.t("required")),
   image: Yup.mixed().required(i18n.t("required")),
 });
 
-const RegisterForm = () => {
+const EditProfileForm = () => {
   const { t } = useTranslation();
   const { isDarkMode } = useThemeContext();
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [initialValues] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    image: null,
-  });
+  const { username, email } = useAuth();
+  const [imagePreview, setImagePreview] = useState<string | null>("" || null);
+  const [openPasswordModal, setOpenPasswordModal] = useState(false);
 
-  // Formik para gestionar el formulario
   const formik = useFormik({
-    initialValues,
+    initialValues: {
+      firstName: username?.split(" ")[0] || "",
+      lastName: username?.split(" ")[1] || "",
+      phone: "",
+      email: email || "",
+      image: null,
+    },
     validationSchema,
     onSubmit: (values) => {
-      // Convierte la imagen a base64 y envía los datos
       const reader = new FileReader();
       reader.readAsDataURL(values.image);
       reader.onloadend = () => {
         const base64Image = reader.result;
         const dataToSubmit = {
           ...values,
-          image: base64Image, // Imagen convertida a base64
+          image: base64Image,
         };
-        console.log("Datos enviados:", dataToSubmit);
-        axiosInstance.post("Accounts/CreateUser", dataToSubmit);
+        console.log("Datos de perfil enviados:", dataToSubmit);
         // Aquí puedes manejar el envío de datos al servidor
       };
     },
@@ -73,7 +62,6 @@ const RegisterForm = () => {
     enableReinitialize: true,
   });
 
-  // Manejador para cargar y mostrar la imagen
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -86,10 +74,13 @@ const RegisterForm = () => {
     }
   };
 
+  const handleOpenPasswordModal = () => setOpenPasswordModal(true);
+  const handleClosePasswordModal = () => setOpenPasswordModal(false);
+
   return (
     <Box sx={{ maxWidth: 600, margin: "auto", mt: 5 }}>
       <Typography variant="h4" align="center" gutterBottom>
-        {t("userRegister")}
+        {t("editProfile")}
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={2}>
@@ -147,39 +138,6 @@ const RegisterForm = () => {
               helperText={formik.touched.email && formik.errors.email}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              id="password"
-              name="password"
-              label={t("password")}
-              type="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              id="confirmPassword"
-              name="confirmPassword"
-              label={t("confirmPassword")}
-              type="password"
-              value={formik.values.confirmPassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.confirmPassword &&
-                Boolean(formik.errors.confirmPassword)
-              }
-              helperText={
-                formik.touched.confirmPassword && formik.errors.confirmPassword
-              }
-            />
-          </Grid>
           <Grid item xs={12}>
             <Button
               variant="contained"
@@ -224,11 +182,25 @@ const RegisterForm = () => {
             color: "white",
           }}
         >
-          {t("signUp")}
+          {t("saveChanges")}
+        </Button>
+
+        <Button
+          variant="outlined"
+          fullWidth
+          sx={{ mt: 2 }}
+          onClick={handleOpenPasswordModal}
+        >
+          {t("changePassword")}
         </Button>
       </form>
+
+      <ChangePasswordModal
+        open={openPasswordModal}
+        onClose={handleClosePasswordModal}
+      />
     </Box>
   );
 };
 
-export default RegisterForm;
+export default EditProfileForm;

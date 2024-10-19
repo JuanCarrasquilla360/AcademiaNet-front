@@ -49,6 +49,17 @@ const es = () => ({
     confirmationEmail: "Confirmacion de email",
     confirmationEmailMsg: "Presione el botón para confirmar su cuenta.",
     passwordTooShort: "Contraseña muy corta",
+    onlyNumber: "El teléfono debe contener solo números",
+    min10Digits: "El teléfono debe tener al menos 10 dígitos",
+    min8Character: "La contraseña debe tener al menos 8 caracteres",
+    doNotMatch: "Las contraseñas no coinciden",
+    userRegister: "Registro de usuario",
+    signUp: "Registrarse",
+    currentPassword: "Contraseña Actual",
+    newPassword: "Contraseña Nueva",
+    confirmNewPassword: "Confirmar Contraseña Nueva",
+    changePassword: "Cambiar Contraseña",
+    saveChanges: "Guardar cambios"
   },
 });
 export default es;

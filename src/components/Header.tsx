@@ -119,7 +119,7 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
               </Box>
               <Divider />
               {/* Link para editar perfil */}
-              <MenuItem onClick={() => navigate("/register")}>
+              <MenuItem onClick={() => navigate("/edit-user")}>
                 {t("editProfile")}
               </MenuItem>
               {/* Link para cerrar sesión */}

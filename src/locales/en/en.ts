@@ -48,7 +48,18 @@ const en = () => ({
     send: "Send",
     confirmationEmail: "Confirmation Email",
     confirmationEmailMsg: "Press the button to confirm your account.",
-    passwordTooShort: "Password too short"
+    passwordTooShort: "Password too short",
+    onlyNumber: "The telephone must contain only numbers",
+    min10Digits: "The telephone number must be at least 10 digits long",
+    min8Character: "The password must be at least 8 characters long",
+    doNotMatch: "Passwords do not match",
+    userRegister: "User Registration",
+    signUp: "SignUp",
+    currentPassword: "Current Password",
+    newPassword: "New Password",
+    confirmNewPassword: "Confirm New Password",
+    changePassword: "Change Password",
+    saveChanges: "Save Changes"
   },
 });
 export default en;
