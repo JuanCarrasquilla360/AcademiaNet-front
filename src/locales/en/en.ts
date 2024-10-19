@@ -29,7 +29,12 @@ const en = () => ({
     createExam: "Create Exam",
     email: "Email",
     password: "Password",
-    logout: "Logout"
+    logout: "Logout",
+    register: "Register",
+    forgotPassword: "Forgot Password",
+    required: "Required Field",
+    welcome: "Welcome",
+    guest: "Guest",
   },
 });
 export default en;

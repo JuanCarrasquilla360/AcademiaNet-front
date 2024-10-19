@@ -29,7 +29,12 @@ const es = () => ({
     createExam: "Crear Examen",
     email: "Correo Electronico",
     password: "Contraseña",
-    logout: "Cerrar Sesion"
+    logout: "Cerrar Sesion",
+    register: "Registro",
+    forgotPassword: "Olvidé Contraseña",
+    required: "Campo requerido",
+    welcome: "Bienvenido",
+    guest: "Invitado",
   },
 });
 export default es;

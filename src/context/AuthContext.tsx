@@ -1,12 +1,14 @@
 import { FC, useState, useEffect, useMemo, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../services/httpService";
+import { useTranslation } from "react-i18next";
 
 type Role = "Admin" | "User" | "guest";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
   userRole: Role | null;
+  username: string | null;
   isLoading: boolean;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
@@ -20,7 +22,9 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { t } = useTranslation();
   const [userRole, setUserRole] = useState<Role | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
   const navigate = useNavigate();
 
@@ -51,6 +55,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
 
       // Actualizar el estado de autenticación
       setIsAuthenticated(true);
+      setUsername(payload.FirstName + " " + payload.LastName);
       setUserRole(
         payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
       );
@@ -61,9 +66,9 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
           "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
         ] === "Admin"
       ) {
-        navigate("/admin");
+        navigate("/home");
       } else {
-        navigate("/user-home");
+        navigate("/");
       }
 
       return true;
@@ -76,9 +81,11 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
   const logout = () => {
     setIsAuthenticated(false);
     setUserRole(null);
+    setUsername(t("guest"));
     localStorage.removeItem("isAuthenticated");
     localStorage.removeItem("userRole");
-    navigate("/login");
+    localStorage.removeItem("jwtToken");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -88,6 +95,8 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
       const payload = JSON.parse(atob(token.split(".")[1]));
 
       // Verificar si el token ha expirado
+      console.log(payload);
+      setUsername(payload.FirstName + " " + payload.LastName);
       const currentTime = Math.floor(Date.now() / 1000);
       if (payload.exp < currentTime) {
         logout(); // Eliminar token y redirigir al login
@@ -102,6 +111,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
     } else {
       setIsAuthenticated(false);
       setUserRole(null);
+      setUsername(t("guest"));
     }
 
     setIsLoading(false);
@@ -111,11 +121,12 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
     () => ({
       isAuthenticated,
       userRole,
+      username,
       isLoading,
       login,
       logout,
     }),
-    [isAuthenticated, userRole, isLoading]
+    [isAuthenticated, userRole, isLoading, username]
   );
 
   return (

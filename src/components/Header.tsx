@@ -10,32 +10,20 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import itmLogo from "../assets/Academia_net.svg";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { CssBaseline, Modal, TextField } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import { useThemeContext } from "../ThemeContext.tsx";
 import { IconMoon, IconSun } from "@tabler/icons-react";
+import LoginModal from "./LoginModal.tsx";
 interface HeaderProps {
   toggleSidebar: () => void;
 }
 
 const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
   const { t } = useTranslation();
-  const { isAuthenticated, login, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const [open, setOpen] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const { isDarkMode, toggleTheme } = useThemeContext();
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    const loginResp = await login(username, password);
-    if (loginResp) {
-      setOpen(false);
-      setError("");
-    } else {
-      setError("Credenciales incorrectas.");
-    }
-  };
+  const { isDarkMode, toggleTheme } = useThemeContext();
 
   const handleLogout = () => {
     logout();
@@ -89,46 +77,7 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
           </Button>
         )}
       </Toolbar>
-      {/*  arreglar el form con formik*/}
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <Box
-          component={"form"}
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 300,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
-          <TextField
-            label={t("email")}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            label={t("password")}
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {error && <Typography color="error">{error}</Typography>}
-          <Button
-            variant="contained"
-            type="submit"
-            color="primary"
-            onClick={handleLogin}
-          >
-            {t("login")}
-          </Button>
-        </Box>
-      </Modal>
+      {open && <LoginModal open={open} handleClose={() => setOpen(false)} />}
     </AppBar>
   );
 };

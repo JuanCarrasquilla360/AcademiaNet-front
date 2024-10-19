@@ -22,6 +22,7 @@ const App: FC = () => {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
+              <Route path="/home" element={<Home />} />
 
               {/* Rutas para roles de usuario normal */}
               <Route
