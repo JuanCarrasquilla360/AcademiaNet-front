@@ -10,23 +10,37 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import itmLogo from "../assets/Academia_net.svg";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, Avatar, Menu, MenuItem, Divider } from "@mui/material";
 import { useThemeContext } from "../ThemeContext.tsx";
 import { IconMoon, IconSun } from "@tabler/icons-react";
 import LoginModal from "./LoginModal.tsx";
+import { useNavigate } from "react-router-dom";
+
 interface HeaderProps {
   toggleSidebar: () => void;
 }
 
 const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
   const { t } = useTranslation();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, email } = useAuth();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // Estado para manejar el menú de usuario
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const { isDarkMode, toggleTheme } = useThemeContext();
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -67,10 +81,51 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
             {!isDarkMode ? <IconMoon /> : <IconSun />}
           </Button>
         </Box>
+
         {isAuthenticated ? (
-          <Button color="inherit" onClick={handleLogout}>
-            {t("logout")}
-          </Button>
+          <>
+            {/* Botón con avatar de usuario */}
+            <IconButton onClick={handleMenuOpen} color="inherit">
+              <Avatar
+                alt="User Avatar"
+                src="/path/to/user/avatar.png" // Aquí puedes poner la ruta a la imagen del usuario
+              />
+            </IconButton>
+
+            {/* Menú que se abre al hacer clic en el avatar */}
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+            >
+              <Box sx={{ p: 2, textAlign: "center" }}>
+                {/* Información del usuario */}
+                <Avatar
+                  alt="User Avatar"
+                  src="/path/to/user/avatar.png"
+                  sx={{ width: 56, height: 56, margin: "auto" }}
+                />
+                <Typography variant="body1" sx={{ mt: 1 }}>
+                  {`${t("hi")}, ${email}`}
+                </Typography>
+              </Box>
+              <Divider />
+              {/* Link para editar perfil */}
+              <MenuItem onClick={() => navigate("/register")}>
+                {t("editProfile")}
+              </MenuItem>
+              {/* Link para cerrar sesión */}
+              <MenuItem onClick={handleLogout}>{t("logout")}</MenuItem>
+            </Menu>
+          </>
         ) : (
           <Button color="inherit" onClick={() => setOpen(true)}>
             {t("login")}
