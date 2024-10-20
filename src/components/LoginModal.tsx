@@ -126,7 +126,10 @@ const LoginModal: FC<LoginProps> = ({ open, handleClose }) => {
             <Link
               component="button"
               variant="body2"
-              onClick={() => navigate("/register")}
+              onClick={() => {
+                navigate("/register");
+                handleClose(false);
+              }}
               sx={{ mb: 1 }}
             >
               {t("registerHere")}

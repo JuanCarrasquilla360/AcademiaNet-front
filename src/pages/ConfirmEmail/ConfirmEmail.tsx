@@ -1,15 +1,17 @@
 import { useSearchParams } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import accountsRepository from "../../repositories/accountsRepository";
 
 const ConfirmEmail = () => {
   const [searchParams] = useSearchParams();
   const { t } = useTranslation();
-  const userId = searchParams.get("userId");
+  const userId = searchParams.get("userid");
+  const token = searchParams.get("token");
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
+    await accountsRepository(`ConfirmEmail`).get({ userId, token });
     console.log(`Confirmando email para el usuario: ${userId}`);
-    // Aquí podrías realizar la lógica de confirmación, como llamar a una API
   };
 
   return (

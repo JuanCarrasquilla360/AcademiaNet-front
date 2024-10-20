@@ -27,7 +27,7 @@ const App: FC = () => {
               <Route index element={<Home />} />
               <Route path="/home" element={<Home />} />
               <Route path="/register" element={<RegisterForm />} />
-              <Route path="/confirm-email" element={<ConfirmEmail />} />
+              <Route path="/api/Accounts/ConfirmEmail" element={<ConfirmEmail />} />
 
               {/* Rutas para roles de usuario normal */}
               <Route
