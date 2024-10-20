@@ -1,7 +1,7 @@
 import { FC, useState, useEffect, useMemo, createContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { axiosInstance } from "../services/httpService";
 import { useTranslation } from "react-i18next";
+import { useSnackbar } from "notistack";
 import accountsRepository from "../repositories/accountsRepository";
 
 type Role = "Admin" | "User" | "guest";
@@ -24,6 +24,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
   const [userRole, setUserRole] = useState<Role | null>(null);
   const [username, setUsername] = useState<string | null>(null);
@@ -37,7 +38,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
   ): Promise<boolean> => {
     try {
       // Enviar credenciales al backend para autenticarse
-      const response = await accountsRepository("Login").post({
+      const response = await accountsRepository("Login", enqueueSnackbar).post({
         email: username,
         password,
       });
