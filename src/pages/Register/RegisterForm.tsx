@@ -12,8 +12,7 @@ import {
 import { useThemeContext } from "../../ThemeContext";
 import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
-import { axiosInstance } from "../../services/httpService";
+import accountsRepository from "../../repositories/accountsRepository";
 
 // Esquema de validación con Yup
 const validationSchema = Yup.object({
@@ -53,19 +52,34 @@ const RegisterForm = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       // Convierte la imagen a base64 y envía los datos
       const reader = new FileReader();
       reader.readAsDataURL(values.image);
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         const base64Image = reader.result;
         const dataToSubmit = {
           ...values,
           image: base64Image, // Imagen convertida a base64
         };
         console.log("Datos enviados:", dataToSubmit);
-        axiosInstance.post("Accounts/CreateUser", dataToSubmit);
-        // Aquí puedes manejar el envío de datos al servidor
+        await accountsRepository("CreateUser").post({
+          FirstName: dataToSubmit.firstName,
+          LastName: dataToSubmit.lastName,
+          UserName: dataToSubmit.email,
+          Email: dataToSubmit.email,
+          InstitutionID: 19,
+          Institution: {
+            InstitutionID: 19,
+            Name: "Universidad Santo Tomás",
+            Location: "",
+            Description: "Institución con una larga tradición académica.",
+          },
+          Language: "EN",
+          PasswordConfirm: dataToSubmit.confirmPassword,
+          Password: dataToSubmit.password,
+          Photo: dataToSubmit.image,
+        });
       };
     },
     validateOnBlur: false,

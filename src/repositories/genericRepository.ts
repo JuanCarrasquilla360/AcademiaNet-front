@@ -1,9 +1,9 @@
 import httpService from "../services/httpService";
 
 const genericRepository = (method: string) => ({
-  get: async () => {
+  get: async (params = null) => {
     try {
-      const data = await httpService.get(`${method}`);
+      const data = await httpService.get(`${method}`, params);
       return data;
     } catch (error) {
       throw new Error("Error fetching user data");
