@@ -59,7 +59,8 @@ const en = () => ({
     newPassword: "New Password",
     confirmNewPassword: "Confirm New Password",
     changePassword: "Change Password",
-    saveChanges: "Save Changes"
+    saveChanges: "Save Changes",
+    resetPassword: "Reset Password"
   },
 });
 export default en;

@@ -8,6 +8,7 @@ import { useAuth } from "../hooks/useAuth";
 import { LoadingButton } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
 import ResendEmailModal from "./ResendEmailModal";
+import ResetPasswordModal from "./ResetPasswordModal";
 
 interface LoginProps {
   open: boolean;
@@ -20,6 +21,7 @@ const LoginModal: FC<LoginProps> = ({ open, handleClose }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [resendEmailOpen, setResendEmailOpen] = useState(false);
+  const [forgotPassOpen, setForgotPassOpen] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -104,7 +106,7 @@ const LoginModal: FC<LoginProps> = ({ open, handleClose }) => {
             <Link
               component="button"
               variant="body2"
-              onClick={() => console.log("Resend activation email clicked")}
+              onClick={() => setForgotPassOpen(true)}
             >
               {t("forgotPassword")}
             </Link>
@@ -145,6 +147,12 @@ const LoginModal: FC<LoginProps> = ({ open, handleClose }) => {
           </Box>
         </Box>
       </Modal>
+      {forgotPassOpen && (
+        <ResetPasswordModal
+          open={forgotPassOpen}
+          handleClose={() => setForgotPassOpen(false)}
+        />
+      )}
       {resendEmailOpen && (
         <ResendEmailModal
           open={resendEmailOpen}

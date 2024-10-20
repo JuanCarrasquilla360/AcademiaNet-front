@@ -16,6 +16,7 @@ import { FC } from "react";
 import RegisterForm from "./pages/Register/RegisterForm";
 import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
 import EditProfileForm from "./pages/EditProfile/EditProfileForm";
+import ResetPasswordView from "./pages/ResetPassword/ResetPassword";
 
 const App: FC = () => {
   return (
@@ -28,6 +29,7 @@ const App: FC = () => {
               <Route path="/home" element={<Home />} />
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/api/Accounts/ConfirmEmail" element={<ConfirmEmail />} />
+              <Route path="/api/Accounts/ResetPassword" element={<ResetPasswordView />} />
 
               {/* Rutas para roles de usuario normal */}
               <Route

@@ -1,4 +1,3 @@
-import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -10,6 +9,7 @@ import {
   Button,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import accountsRepository from "../repositories/accountsRepository";
 
 interface ChangePasswordModalProps {
   open: boolean;
@@ -21,7 +21,7 @@ const validationSchema = Yup.object({
   newPassword: Yup.string()
     .min(6, "At least 6 characters")
     .required("Required"),
-  confirmNewPassword: Yup.string()
+  confirm: Yup.string()
     .oneOf([Yup.ref("newPassword")], "Passwords must match")
     .required("Required"),
 });
@@ -33,13 +33,13 @@ const ChangePasswordModal = ({ open, onClose }: ChangePasswordModalProps) => {
     initialValues: {
       currentPassword: "",
       newPassword: "",
-      confirmNewPassword: "",
+      confirm: "",
     },
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log("Contraseña cambiada:", values);
-      // Aquí puedes manejar el envío de datos al servidor
-      onClose(); // Cerrar el modal tras cambiar la contraseña
+      await accountsRepository("changePassword").post(values);
+      onClose();
     },
     validateOnBlur: false,
     validateOnMount: true,
@@ -86,22 +86,16 @@ const ChangePasswordModal = ({ open, onClose }: ChangePasswordModalProps) => {
           />
           <TextField
             margin="dense"
-            id="confirmNewPassword"
-            name="confirmNewPassword"
+            id="confirm"
+            name="confirm"
             label={t("confirmNewPassword")}
             type="password"
             fullWidth
-            value={formik.values.confirmNewPassword}
+            value={formik.values.confirm}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={
-              formik.touched.confirmNewPassword &&
-              Boolean(formik.errors.confirmNewPassword)
-            }
-            helperText={
-              formik.touched.confirmNewPassword &&
-              formik.errors.confirmNewPassword
-            }
+            error={formik.touched.confirm && Boolean(formik.errors.confirm)}
+            helperText={formik.touched.confirm && formik.errors.confirm}
           />
         </DialogContent>
         <DialogActions>

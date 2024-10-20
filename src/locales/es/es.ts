@@ -59,7 +59,8 @@ const es = () => ({
     newPassword: "Contraseña Nueva",
     confirmNewPassword: "Confirmar Contraseña Nueva",
     changePassword: "Cambiar Contraseña",
-    saveChanges: "Guardar cambios"
+    saveChanges: "Guardar cambios",
+    resetPassword: "Reiniciar Contraseña"
   },
 });
 export default es;

@@ -2,6 +2,7 @@ import { FC, useState, useEffect, useMemo, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../services/httpService";
 import { useTranslation } from "react-i18next";
+import accountsRepository from "../repositories/accountsRepository";
 
 type Role = "Admin" | "User" | "guest";
 
@@ -36,13 +37,13 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
   ): Promise<boolean> => {
     try {
       // Enviar credenciales al backend para autenticarse
-      const response = await axiosInstance.post("Accounts/Login", {
+      const response = await accountsRepository("Login").post({
         email: username,
         password,
       });
 
       // Si la autenticación es exitosa, recibirás el token JWT en la respuesta
-      const { token } = response.data;
+      const { token } = response;
 
       // Decodificar el token JWT para obtener los roles y otra información
       const payload = JSON.parse(atob(token.split(".")[1]));

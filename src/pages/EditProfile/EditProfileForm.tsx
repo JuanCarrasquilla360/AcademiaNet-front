@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import i18n from "../../i18n";
 import ChangePasswordModal from "../../components/ChangePasswordModal ";
 import { useAuth } from "../../hooks/useAuth";
+import accountsRepository from "../../repositories/accountsRepository";
 
 const validationSchema = Yup.object({
   firstName: Yup.string().required(i18n.t("required")),
@@ -25,55 +26,94 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email(i18n.t("invalidEmail"))
     .required(i18n.t("required")),
-  image: Yup.mixed().required(i18n.t("required")),
+  image: Yup.mixed().nullable(),
 });
 
 const EditProfileForm = () => {
   const { t } = useTranslation();
   const { isDarkMode } = useThemeContext();
   const { username, email } = useAuth();
-  const [imagePreview, setImagePreview] = useState<string | null>("" || null);
+  const [initialValues, setInitialValues] = useState({
+    firstName: username?.split(" ")[0] || "",
+    lastName: username?.split(" ")[1] || "",
+    phone: "",
+    email: email || "",
+    image: null,
+  });
+  const [imagePreview, setImagePreview] = useState<string | null>(""); // Preview de imagen
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
 
-  const formik = useFormik({
-    initialValues: {
-      firstName: username?.split(" ")[0] || "",
-      lastName: username?.split(" ")[1] || "",
-      phone: "",
-      email: email || "",
-      image: null,
-    },
-    validationSchema,
-    onSubmit: (values) => {
+  // Función para convertir archivo a base64
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.readAsDataURL(values.image);
-      reader.onloadend = () => {
-        const base64Image = reader.result;
-        const dataToSubmit = {
-          ...values,
-          image: base64Image,
-        };
-        console.log("Datos de perfil enviados:", dataToSubmit);
-        // Aquí puedes manejar el envío de datos al servidor
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  // Configuración de Formik
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+
+      let base64Image = null;
+      if (values.image && !values.image.includes("https")) {
+        base64Image = await convertToBase64(values.image);
+      }
+
+      const dataToSubmit = {
+        FirstName: values.firstName,
+        LastName: values.lastName,
+        UserName: values.email,
+        Email: values.email,
+        PhoneNumber: values.phone,
+        Phone: values.phone,
+        InstitutionID: 19,
+        Institution: {
+          InstitutionID: 19,
+          Name: "Universidad Santo Tomás",
+        },
+        Language: "EN",
+        Photo: base64Image, // Enviar la imagen en base64
       };
+
+      console.log("Datos enviados:", dataToSubmit);
+      await accountsRepository("").put(dataToSubmit);
     },
     validateOnBlur: false,
     validateOnMount: true,
     enableReinitialize: true,
   });
 
+  // Función para obtener datos del usuario
+  const getUser = async () => {
+    const dataAcc = await accountsRepository("").get();
+    setImagePreview(dataAcc.photo); // La imagen en base64
+    setInitialValues((data) => ({
+      ...data,
+      phone: dataAcc.phoneNumber,
+      image: dataAcc.photo, // Guardar la imagen actual en el estado
+    }));
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  // Función para cargar una nueva imagen
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+    const file = event.target.files[0]; // Tomar el archivo del input
     if (file) {
-      formik.setFieldValue("image", file);
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        setImagePreview(reader.result as string);
-      };
+      formik.setFieldValue("image", file); // Establecer el archivo en formik
+      const previewUrl = URL.createObjectURL(file); // Generar URL temporal para previsualizar la imagen
+      setImagePreview(previewUrl); // Actualizar el preview de la imagen
     }
   };
 
+  // Funciones para el modal de cambio de contraseña
   const handleOpenPasswordModal = () => setOpenPasswordModal(true);
   const handleClosePasswordModal = () => setOpenPasswordModal(false);
 
@@ -131,6 +171,7 @@ const EditProfileForm = () => {
               id="email"
               name="email"
               label={t("email")}
+              disabled
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -152,9 +193,9 @@ const EditProfileForm = () => {
               {t("loadImage")}
               <input
                 type="file"
-                accept="image/png"
+                accept="image/png, image/jpeg"
                 hidden
-                onChange={handleImageUpload}
+                onChange={handleImageUpload} // Maneja el cambio de imagen
               />
             </Button>
             {formik.touched.image && formik.errors.image ? (
@@ -163,7 +204,7 @@ const EditProfileForm = () => {
             {imagePreview && (
               <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
                 <Avatar
-                  src={imagePreview}
+                  src={imagePreview} // Previsualización de la imagen
                   alt="Preview"
                   sx={{ width: 100, height: 100, mt: 2 }}
                 />

@@ -6,12 +6,12 @@ import { useTranslation } from "react-i18next";
 import { LoadingButton } from "@mui/lab";
 import accountsRepository from "../repositories/accountsRepository";
 
-interface ResendEmailModalProps {
+interface ResetPasswordModalProps {
   open: boolean;
   handleClose: () => void;
 }
 
-const ResendEmailModal: FC<ResendEmailModalProps> = ({ open, handleClose }) => {
+const ResetPasswordModal: FC<ResetPasswordModalProps> = ({ open, handleClose }) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,7 +26,7 @@ const ResendEmailModal: FC<ResendEmailModalProps> = ({ open, handleClose }) => {
       setIsLoading(true);
       try {
         // Lógica para reenviar el email de activación
-        await accountsRepository("ResedToken").post({
+        await accountsRepository("RecoverPassword").post({
           email:  values.email,
           language: "en",
         });
@@ -63,7 +63,7 @@ const ResendEmailModal: FC<ResendEmailModalProps> = ({ open, handleClose }) => {
         }}
       >
         <Typography variant="h6" align="center">
-          {t("resendActivationEmail")}
+          {t("forgotPassword")}
         </Typography>
 
         {/* Email Input */}
@@ -93,4 +93,4 @@ const ResendEmailModal: FC<ResendEmailModalProps> = ({ open, handleClose }) => {
   );
 };
 
-export default ResendEmailModal;
+export default ResetPasswordModal;

@@ -31,7 +31,7 @@ const validationSchema = Yup.object({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], i18n.t("doNotMatch"))
     .required(i18n.t("required")),
-  image: Yup.mixed().required(i18n.t("required")),
+  image: Yup.mixed().nullable(),
 });
 
 const RegisterForm = () => {
@@ -47,6 +47,14 @@ const RegisterForm = () => {
     confirmPassword: "",
     image: null,
   });
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   // Formik para gestionar el formulario
   const formik = useFormik({
@@ -54,33 +62,36 @@ const RegisterForm = () => {
     validationSchema,
     onSubmit: async (values) => {
       // Convierte la imagen a base64 y envía los datos
-      const reader = new FileReader();
-      reader.readAsDataURL(values.image);
-      reader.onloadend = async () => {
-        const base64Image = reader.result;
-        const dataToSubmit = {
-          ...values,
-          image: base64Image, // Imagen convertida a base64
-        };
-        console.log("Datos enviados:", dataToSubmit);
-        await accountsRepository("CreateUser").post({
-          FirstName: dataToSubmit.firstName,
-          LastName: dataToSubmit.lastName,
-          UserName: dataToSubmit.email,
-          Email: dataToSubmit.email,
+      let base64Image = null;
+      if (values.image) {
+        base64Image = await convertToBase64(values.image);
+      }
+
+      // Crea los datos a enviar al backend
+      const dataToSubmit = {
+        FirstName: values.firstName,
+        LastName: values.lastName,
+        UserName: values.email,
+        Email: values.email,
+        PhoneNumber: values.phone,
+        Phone: values.phone,
+        InstitutionID: 19,
+        Institution: {
           InstitutionID: 19,
-          Institution: {
-            InstitutionID: 19,
-            Name: "Universidad Santo Tomás",
-            Location: "",
-            Description: "Institución con una larga tradición académica.",
-          },
-          Language: "EN",
-          PasswordConfirm: dataToSubmit.confirmPassword,
-          Password: dataToSubmit.password,
-          Photo: dataToSubmit.image,
-        });
+          Name: "Universidad Santo Tomás",
+          Location: "",
+          Description: "Institución con una larga tradición académica.",
+        },
+        Language: "EN",
+        PasswordConfirm: values.confirmPassword,
+        Password: values.password,
+        Photo: base64Image, // Enviar null si no hay imagen
       };
+
+      console.log("Datos enviados:", dataToSubmit);
+
+      // Envía los datos al backend
+      await accountsRepository("CreateUser").post(dataToSubmit);
     },
     validateOnBlur: false,
     validateOnMount: true,
