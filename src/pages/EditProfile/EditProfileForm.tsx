@@ -60,7 +60,7 @@ const EditProfileForm = () => {
     onSubmit: async (values) => {
 
       let base64Image = null;
-      if (values.image && !values.image.includes("https")) {
+      if (values.image ) {
         base64Image = await convertToBase64(values.image);
       }
 
