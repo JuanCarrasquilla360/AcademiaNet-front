@@ -12,8 +12,6 @@ import {
 import { useThemeContext } from "../../ThemeContext";
 import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
-import { axiosInstance } from "../../services/httpService";
 import accountsRepository from "../../repositories/accountsRepository";
 
 // Esquema de validación con Yup
