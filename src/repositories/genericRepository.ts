@@ -1,59 +1,62 @@
+import i18n from "../i18n";
 import httpService from "../services/httpService";
 
-const genericRepository = (
-  method: string,
-  enqueueSnackbar: (message: string, options?: any) => void
-) => ({
-  get: async (params = null) => {
-    try {
-      const data = await httpService.get(`${method}`, params);
-      enqueueSnackbar("Data fetched successfully!", { variant: "success" });
-      return data;
-    } catch (error) {
-      enqueueSnackbar("Error fetching data!", { variant: "error" });
-      throw new Error("Error fetching data");
-    }
+const genericRepository = (method: string) => ({
+  get: async (
+    params = null,
+    enqueueSnackbar?: any,
+    message = "Data fetched successfully"
+  ) => {
+    return await handleOperation(
+      () => httpService.get(method, params),
+      message,
+      enqueueSnackbar
+    );
   },
-  getById: async (id) => {
-    try {
-      const data = await httpService.get(`${method}/${id}`);
-      enqueueSnackbar("Data fetched successfully!", { variant: "success" });
-      return data;
-    } catch (error) {
-      enqueueSnackbar("Error fetching data!", { variant: "error" });
-      throw new Error("Error fetching data");
-    }
+  getById: async (
+    id,
+    enqueueSnackbar?: any,
+    message = "Data fetched successfully"
+  ) => {
+    return await handleOperation(
+      () => httpService.get(`${method}/${id}`),
+      message,
+      enqueueSnackbar
+    );
   },
-  post: async (body) => {
-    try {
-      const data = await httpService.post(`${method}`, body);
-      enqueueSnackbar("Data posted successfully!", { variant: "success" });
-      return data;
-    } catch (error) {
-      enqueueSnackbar("Error posting data!", { variant: "error" });
-      throw new Error("Error posting data");
-    }
+  post: async (body, enqueueSnackbar?: any, message = "Request successful") => {
+    return await handleOperation(
+      () => httpService.post(method, body),
+      message,
+      enqueueSnackbar
+    );
   },
-  put: async (body) => {
-    try {
-      const data = await httpService.put(`${method}`, body);
-      enqueueSnackbar("Data updated successfully!", { variant: "success" });
-      return data;
-    } catch (error) {
-      enqueueSnackbar("Error updating data!", { variant: "error" });
-      throw new Error("Error updating data");
-    }
+  put: async (body, enqueueSnackbar?: any, message = "Update successful") => {
+    return await handleOperation(
+      () => httpService.put(method, body),
+      message,
+      enqueueSnackbar
+    );
   },
-  delete: async () => {
-    try {
-      const data = await httpService.delete(`${method}`);
-      enqueueSnackbar("Data deleted successfully!", { variant: "success" });
-      return data;
-    } catch (error) {
-      enqueueSnackbar("Error deleting data!", { variant: "error" });
-      throw new Error("Error deleting data");
-    }
+  delete: async (enqueueSnackbar?: any, message = "Delete successful") => {
+    return await handleOperation(
+      () => httpService.delete(method),
+      message,
+      enqueueSnackbar
+    );
   },
 });
+
+const handleOperation = async (operation, successMessage, enqueueSnackbar) => {
+  try {
+    const data = await operation();
+    if (enqueueSnackbar)
+      enqueueSnackbar(successMessage, { variant: "success" });
+    return data;
+  } catch (error: string) {
+    if (enqueueSnackbar) enqueueSnackbar(i18n.t(error.message), { variant: "error" });
+    throw error;
+  }
+};
 
 export default genericRepository;

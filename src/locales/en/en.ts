@@ -12,6 +12,7 @@ const en = () => ({
     enrollmentPeriods: "Enrollment Periods",
     requiredField: "This field is required",
     createInstitution: "Create Institution",
+    myInstitution: "My Institution",
     save: "Save",
     filterName: "Filter by name",
     createAcademicProgram: "Create Academic Program",
@@ -60,7 +61,10 @@ const en = () => ({
     confirmNewPassword: "Confirm New Password",
     changePassword: "Change Password",
     saveChanges: "Save Changes",
-    resetPassword: "Reset Password"
+    resetPassword: "Reset Password",
+    userCreated: "User created successfully, please check you email",
+    DuplicateUserName: "Duplicated User",
+    something_went_wrong: "Something Went Wrong",
   },
 });
 export default en;

@@ -8,11 +8,13 @@ import {
   Typography,
   Grid,
   Avatar,
+  Autocomplete,
 } from "@mui/material";
 import { useThemeContext } from "../../ThemeContext";
 import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
 import accountsRepository from "../../repositories/accountsRepository";
+import { useSnackbar } from "notistack";
 
 // Esquema de validación con Yup
 const validationSchema = Yup.object({
@@ -28,6 +30,8 @@ const validationSchema = Yup.object({
   password: Yup.string()
     .required(i18n.t("required"))
     .min(8, i18n.t("min8Character")),
+  institution: Yup.string().required(i18n.t("required")),
+  location: Yup.string().required(i18n.t("required")),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], i18n.t("doNotMatch"))
     .required(i18n.t("required")),
@@ -37,16 +41,20 @@ const validationSchema = Yup.object({
 const RegisterForm = () => {
   const { t } = useTranslation();
   const { isDarkMode } = useThemeContext();
+  const { enqueueSnackbar } = useSnackbar();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [initialValues] = useState({
     firstName: "",
     lastName: "",
     phone: "",
     email: "",
+    institution: "",
+    location: "",
     password: "",
     confirmPassword: "",
     image: null,
   });
+  const cities = ["Bogotá", "Cali", "Medellín", "Barranquilla"];
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -56,18 +64,15 @@ const RegisterForm = () => {
     });
   };
 
-  // Formik para gestionar el formulario
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      // Convierte la imagen a base64 y envía los datos
       let base64Image = null;
       if (values.image) {
         base64Image = await convertToBase64(values.image);
       }
 
-      // Crea los datos a enviar al backend
       const dataToSubmit = {
         FirstName: values.firstName,
         LastName: values.lastName,
@@ -75,12 +80,10 @@ const RegisterForm = () => {
         Email: values.email,
         PhoneNumber: values.phone,
         Phone: values.phone,
-        InstitutionID: 19,
         Institution: {
-          InstitutionID: 19,
-          Name: "Universidad Santo Tomás",
-          Location: "",
-          Description: "Institución con una larga tradición académica.",
+          Name: values.institution,
+          Location: values.location,
+          Description: "",
         },
         Language: "EN",
         PasswordConfirm: values.confirmPassword,
@@ -91,7 +94,11 @@ const RegisterForm = () => {
       console.log("Datos enviados:", dataToSubmit);
 
       // Envía los datos al backend
-      await accountsRepository("CreateUser").post(dataToSubmit);
+      await accountsRepository("CreateUser").post(
+        dataToSubmit,
+        enqueueSnackbar,
+        t("userCreated")
+      );
     },
     validateOnBlur: false,
     validateOnMount: true,
@@ -170,6 +177,48 @@ const RegisterForm = () => {
               onBlur={formik.handleBlur}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              id="institution"
+              name="institution"
+              label={t("institution")}
+              value={formik.values.institution}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.institution && Boolean(formik.errors.institution)
+              }
+              helperText={
+                formik.touched.institution && formik.errors.institution
+              }
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Autocomplete
+              id="location"
+              options={cities}
+              fullWidth
+              getOptionLabel={(option) => option}
+              value={
+                cities.find((option) => option === formik.values.location) ||
+                null
+              }
+              onChange={(_, value) =>
+                formik.setFieldValue("location", value || "")
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label={t("location")}
+                  error={
+                    formik.touched.location && Boolean(formik.errors.location)
+                  }
+                  helperText={formik.touched.location && formik.errors.location}
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} sm={6}>

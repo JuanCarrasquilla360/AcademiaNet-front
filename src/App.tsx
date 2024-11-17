@@ -10,6 +10,7 @@ import AcademicProgramsRouter from "./pages/AcademicPrograms/AcademicProgramsRou
 import AcademicExamsRouter from "./pages/AcademicExams/AcademicExamsRouter";
 import AdminRouter from "./pages/Admin/AdminRouter";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { SnackbarProvider } from "notistack";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import PrivateRoute from "./components/PrivateRoute"; // Importamos el nuevo PrivateRoute
 import { FC } from "react";
@@ -21,84 +22,96 @@ import ResetPasswordView from "./pages/ResetPassword/ResetPassword";
 const App: FC = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/register" element={<RegisterForm />} />
-              <Route path="/api/Accounts/ConfirmEmail" element={<ConfirmEmail />} />
-              <Route path="/api/Accounts/ResetPassword" element={<ResetPasswordView />} />
+      <SnackbarProvider
+        maxSnack={3}
+        autoHideDuration={4000}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <BrowserRouter>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/register" element={<RegisterForm />} />
+                <Route
+                  path="/api/Accounts/ConfirmEmail"
+                  element={<ConfirmEmail />}
+                />
+                <Route
+                  path="/api/Accounts/ResetPassword"
+                  element={<ResetPasswordView />}
+                />
 
-              {/* Rutas para roles de usuario normal */}
-              <Route
-                path="/edit-user"
-                element={
-                  <PrivateRoute allowedRoles={["User", "Admin"]}>
-                    <EditProfileForm />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/institution/*"
-                element={
-                  <PrivateRoute allowedRoles={["User", "Admin"]}>
-                    <InstitutionConfigRouter />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/enrollment-period/*"
-                element={
-                  <PrivateRoute allowedRoles={["User", "Admin"]}>
-                    <EnrollmentPeriodRouter />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/academic-programs/*"
-                element={
-                  <PrivateRoute allowedRoles={["User", "Admin"]}>
-                    <AcademicProgramsRouter />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/academic-exams/*"
-                element={
-                  <PrivateRoute allowedRoles={["User", "Admin"]}>
-                    <AcademicExamsRouter />
-                  </PrivateRoute>
-                }
-              />
+                {/* Rutas para roles de usuario normal */}
+                <Route
+                  path="/edit-user"
+                  element={
+                    <PrivateRoute allowedRoles={["User", "Admin"]}>
+                      <EditProfileForm />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/institution/*"
+                  element={
+                    <PrivateRoute allowedRoles={["User", "Admin"]}>
+                      <InstitutionConfigRouter />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/enrollment-period/*"
+                  element={
+                    <PrivateRoute allowedRoles={["User", "Admin"]}>
+                      <EnrollmentPeriodRouter />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/academic-programs/*"
+                  element={
+                    <PrivateRoute allowedRoles={["User", "Admin"]}>
+                      <AcademicProgramsRouter />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/academic-exams/*"
+                  element={
+                    <PrivateRoute allowedRoles={["User", "Admin"]}>
+                      <AcademicExamsRouter />
+                    </PrivateRoute>
+                  }
+                />
 
-              {/* Ruta para administradores */}
-              <Route
-                path="/admin"
-                element={
-                  <PrivateRoute allowedRoles={["Admin"]}>
-                    <AdminRouter />
-                  </PrivateRoute>
-                }
-              />
+                {/* Ruta para administradores */}
+                <Route
+                  path="/admin"
+                  element={
+                    <PrivateRoute allowedRoles={["Admin"]}>
+                      <AdminRouter />
+                    </PrivateRoute>
+                  }
+                />
 
-              {/* Ruta para cuando no encuentra la página */}
-              <Route path="*" element={<NotFoundPage />} />
+                {/* Ruta para cuando no encuentra la página */}
+                <Route path="*" element={<NotFoundPage />} />
 
-              {/* Ruta para usuarios logueados (disponible para cualquier usuario autenticado) */}
-              <Route
-                path="/logged"
-                element={
-                  <PrivateRoute allowedRoles={["Admin", "guest"]}>
-                    <Typography>loggeado</Typography>
-                  </PrivateRoute>
-                }
-              />
-            </Route>
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
+                {/* Ruta para usuarios logueados (disponible para cualquier usuario autenticado) */}
+                <Route
+                  path="/logged"
+                  element={
+                    <PrivateRoute allowedRoles={["Admin", "guest"]}>
+                      <Typography>loggeado</Typography>
+                    </PrivateRoute>
+                  }
+                />
+              </Route>
+            </Routes>
+          </AuthProvider>
+        </BrowserRouter>
+      </SnackbarProvider>
     </LocalizationProvider>
   );
 };

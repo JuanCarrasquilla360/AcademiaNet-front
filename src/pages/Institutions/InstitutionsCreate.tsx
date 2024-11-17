@@ -11,13 +11,30 @@ import {
   Box,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import LoadingComponent from "../../components/LoadingComponent";
 import institutionRepository from "../../repositories/institutionRepository";
+import { jwtDecode } from "jwt-decode";
+
+interface DecodedToken {
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": string;
+  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
+  FirstName: string;
+  LastName: string;
+  Photo: string;
+  InstitutionID: string;
+  exp: number;
+}
 
 const InstitutionsCreate: FC = () => {
   const { t } = useTranslation();
-  const { id } = useParams();
+  // const { id } = useParams();
+  const token = localStorage.getItem("jwtToken");
+  let id = "";
+  if (token) {
+    const { InstitutionID } = jwtDecode<DecodedToken>(token);
+    id = InstitutionID;
+  }
   const [loading, setLoading] = useState(false);
   const [institution, setInstitution] = useState({
     name: "",
@@ -84,7 +101,7 @@ const InstitutionsCreate: FC = () => {
         <LoadingComponent />
       ) : (
         <form onSubmit={formik.handleSubmit}>
-          <Typography>{t("createInstitution")}</Typography>
+          <Typography>{t("myInstitution")}</Typography>
           <Divider sx={{ my: 2 }} />
           <Grid container spacing={2}>
             <Grid item xs={6}>

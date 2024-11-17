@@ -37,11 +37,13 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
     password: string
   ): Promise<boolean> => {
     try {
-      // Enviar credenciales al backend para autenticarse
-      const response = await accountsRepository("Login", enqueueSnackbar).post({
-        email: username,
-        password,
-      });
+      const response = await accountsRepository("Login").post(
+        {
+          email: username,
+          password,
+        },
+        enqueueSnackbar
+      );
 
       // Si la autenticación es exitosa, recibirás el token JWT en la respuesta
       const { token } = response;
