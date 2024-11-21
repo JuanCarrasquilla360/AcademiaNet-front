@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], i18n.t("doNotMatch"))
     .required(i18n.t("required")),
-  image: Yup.mixed().nullable(),
+  image: Yup.mixed().nullable().required(i18n.t("required")),
 });
 
 const RegisterForm = () => {

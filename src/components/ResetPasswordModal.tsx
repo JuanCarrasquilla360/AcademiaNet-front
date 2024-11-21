@@ -5,15 +5,20 @@ import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
 import { LoadingButton } from "@mui/lab";
 import accountsRepository from "../repositories/accountsRepository";
+import { useSnackbar } from "notistack";
 
 interface ResetPasswordModalProps {
   open: boolean;
   handleClose: () => void;
 }
 
-const ResetPasswordModal: FC<ResetPasswordModalProps> = ({ open, handleClose }) => {
+const ResetPasswordModal: FC<ResetPasswordModalProps> = ({
+  open,
+  handleClose,
+}) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const formik = useFormik({
     initialValues: {
@@ -26,10 +31,14 @@ const ResetPasswordModal: FC<ResetPasswordModalProps> = ({ open, handleClose }) 
       setIsLoading(true);
       try {
         // Lógica para reenviar el email de activación
-        await accountsRepository("RecoverPassword").post({
-          email:  values.email,
-          language: "en",
-        });
+        await accountsRepository("RecoverPassword").post(
+          {
+            email: values.email,
+            language: "en",
+          },
+          enqueueSnackbar,
+          t("checkEmail")
+        );
         console.log("Reenviando correo a:", values.email);
         handleClose();
       } catch (error) {

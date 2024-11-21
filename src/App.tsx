@@ -42,8 +42,6 @@ const App: FC = () => {
                   path="/api/Accounts/ResetPassword"
                   element={<ResetPasswordView />}
                 />
-
-                {/* Rutas para roles de usuario normal */}
                 <Route
                   path="/edit-user"
                   element={
