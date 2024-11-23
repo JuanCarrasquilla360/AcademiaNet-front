@@ -37,8 +37,7 @@ const LoginModal: FC<LoginProps> = ({ open, handleClose }) => {
     onSubmit: async ({ email, password }) => {
       setIsLoading(true);
       try {
-        const loginResp = await login(email, password);
-        console.log(loginResp);
+        await login(email, password);
         handleClose(true);
       } catch (error) {
         console.log("Credenciales incorrectas.", error);

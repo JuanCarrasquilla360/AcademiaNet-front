@@ -5,11 +5,14 @@ import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
 import { LoadingButton } from "@mui/lab";
 import accountsRepository from "../../repositories/accountsRepository";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const ResetPasswordView: FC = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const token = searchParams.get("token");
 
@@ -32,12 +35,19 @@ const ResetPasswordView: FC = () => {
       setIsLoading(true);
       try {
         // Lógica para resetear la contraseña usando el token
-        await accountsRepository("ResetPassword").post({
-          email: values.email,
-          newPassword: values.newPassword,
-          confirmPassword: values.confirmPassword,
-          token,
-        });
+        await accountsRepository("ResetPassword").post(
+          {
+            email: values.email,
+            newPassword: values.newPassword,
+            confirmPassword: values.confirmPassword,
+            token,
+          },
+          enqueueSnackbar,
+          t("resetPasswordSuccessful")
+        );
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
         console.log("Contraseña reseteada para:", values.email);
         // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
       } catch (error) {

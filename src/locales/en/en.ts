@@ -65,6 +65,11 @@ const en = () => ({
     userCreated: "User created successfully, please check you email",
     DuplicateUserName: "Duplicated User",
     something_went_wrong: "Something Went Wrong",
+    emailConfirmed: "Email Confirmed",
+    successfulLogin: "Successful Login",
+    checkEmail: "Please check your email",
+    resetPasswordSuccessful: "Password Reseted Successfully",
+    changePasswordSuccessful: "Password changed Successfully",
   },
 });
 export default en;

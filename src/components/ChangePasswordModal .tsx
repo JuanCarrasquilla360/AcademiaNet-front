@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import accountsRepository from "../repositories/accountsRepository";
+import { useSnackbar } from "notistack";
 
 interface ChangePasswordModalProps {
   open: boolean;
@@ -28,7 +29,7 @@ const validationSchema = Yup.object({
 
 const ChangePasswordModal = ({ open, onClose }: ChangePasswordModalProps) => {
   const { t } = useTranslation();
-
+  const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: {
       currentPassword: "",
@@ -38,7 +39,11 @@ const ChangePasswordModal = ({ open, onClose }: ChangePasswordModalProps) => {
     validationSchema,
     onSubmit: async (values) => {
       console.log("Contraseña cambiada:", values);
-      await accountsRepository("changePassword").post(values);
+      await accountsRepository("changePassword").post(
+        values,
+        enqueueSnackbar,
+        t("changePasswordSuccessful")
+      );
       onClose();
     },
     validateOnBlur: false,
