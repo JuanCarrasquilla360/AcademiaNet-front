@@ -15,7 +15,6 @@ import { useThemeContext } from "../ThemeContext.tsx";
 import { IconMoon, IconSun } from "@tabler/icons-react";
 import LoginModal from "./LoginModal.tsx";
 import { useNavigate } from "react-router-dom";
-import { Visibility } from "@mui/icons-material";
 
 interface HeaderProps {
   toggleSidebar: () => void;
