@@ -1,4 +1,5 @@
 import axios from "axios";
+import i18n from "../i18n";
 
 const baseURL = "https://localhost:7241/api/";
 export const axiosInstance = axios.create({
@@ -37,24 +38,35 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
 const httpService = {
-  get: async (url: string, params = null) => {
-    const response = await axiosInstance.get(`${url}`, { params });
-    return response.data;
+  handleRequest: async (
+    method: "post" | "get" | "put" | "delete",
+    url: string,
+    data = null,
+    params = null
+  ) => {
+    try {
+      const config = params ? { params } : {};
+      const response = await axiosInstance[method](url, data || config);
+      return response.data;
+    } catch (error) {
+      console.log(error.message);
+
+      const errorMessage =
+        error.response?.data.code
+          ? error.response?.data.code
+          : "something_went_wrong";
+      console.log(errorMessage);
+      throw new Error(errorMessage);
+    }
   },
-  post: async (url: string, data) => {
-    const response = await axiosInstance.post(`${url}`, data);
-    return response.data;
-  },
-  put: async (url: string, data) => {
-    const response = await axiosInstance.put(`${url}`, data);
-    return response.data;
-  },
-  delete: async (url: string) => {
-    const response = await axiosInstance.delete(`${url}`);
-    return response.data;
-  },
+  get: async (url: string, params = null) =>
+    await httpService.handleRequest("get", url, null, params),
+  post: async (url: string, data: any) =>
+    await httpService.handleRequest("post", url, data),
+  put: async (url: string, data: any) =>
+    await httpService.handleRequest("put", url, data),
+  delete: async (url: string) => await httpService.handleRequest("delete", url),
 };
 
 export default httpService;

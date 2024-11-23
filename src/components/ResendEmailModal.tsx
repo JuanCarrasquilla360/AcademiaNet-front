@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
 import { LoadingButton } from "@mui/lab";
 import accountsRepository from "../repositories/accountsRepository";
+import { useSnackbar } from "notistack";
 
 interface ResendEmailModalProps {
   open: boolean;
@@ -13,6 +14,7 @@ interface ResendEmailModalProps {
 
 const ResendEmailModal: FC<ResendEmailModalProps> = ({ open, handleClose }) => {
   const { t } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
@@ -26,10 +28,14 @@ const ResendEmailModal: FC<ResendEmailModalProps> = ({ open, handleClose }) => {
       setIsLoading(true);
       try {
         // Lógica para reenviar el email de activación
-        await accountsRepository("ResedToken").post({
-          email:  values.email,
-          language: "en",
-        });
+        await accountsRepository("ResedToken").post(
+          {
+            email: values.email,
+            language: "en",
+          },
+          enqueueSnackbar,
+          t("checkEmail")
+        );
         console.log("Reenviando correo a:", values.email);
         handleClose();
       } catch (error) {

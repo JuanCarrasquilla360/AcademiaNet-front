@@ -37,11 +37,14 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
     password: string
   ): Promise<boolean> => {
     try {
-      // Enviar credenciales al backend para autenticarse
-      const response = await accountsRepository("Login", enqueueSnackbar).post({
-        email: username,
-        password,
-      });
+      const response = await accountsRepository("Login").post(
+        {
+          email: username,
+          password,
+        },
+        enqueueSnackbar,
+        t("successfulLogin")
+      );
 
       // Si la autenticación es exitosa, recibirás el token JWT en la respuesta
       const { token } = response;
@@ -73,7 +76,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
           "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
         ] === "Admin"
       ) {
-        navigate("/home");
+        navigate("/institution");
       } else {
         navigate("/");
       }
@@ -101,17 +104,14 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({
 
     if (token) {
       const payload = JSON.parse(atob(token.split(".")[1]));
-      console.log(payload);
-
-      // Verificar si el token ha expirado
-      console.log(payload);
+     
       setUsername(payload.FirstName + " " + payload.LastName);
       setEmail(
         payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]
       );
       const currentTime = Math.floor(Date.now() / 1000);
       if (payload.exp < currentTime) {
-        logout(); // Eliminar token y redirigir al login
+        logout();
       } else {
         setIsAuthenticated(true);
         setUserRole(

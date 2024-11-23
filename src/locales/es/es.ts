@@ -12,6 +12,7 @@ const es = () => ({
     enrollmentPeriods: "Periodos de Inscripcion",
     requiredField: "Este campo es requerido",
     createInstitution: "Crear Institución",
+    myInstitution: "Mi Institución",
     save: "Guardar",
     filterName: "Filtrar por nombre",
     createAcademicProgram: "Crear Programa Academico",
@@ -60,7 +61,15 @@ const es = () => ({
     confirmNewPassword: "Confirmar Contraseña Nueva",
     changePassword: "Cambiar Contraseña",
     saveChanges: "Guardar cambios",
-    resetPassword: "Reiniciar Contraseña"
+    resetPassword: "Reiniciar Contraseña",
+    userCreated: "Usuario creado satisfactoriamente, por favor revisa tu email",
+    DuplicateUserName: "Usuario duplicado",
+    something_went_wrong: "Algo salió mal",
+    emailConfirmed: "Correo Confirmado",
+    successfulLogin: "Inicio de sesión correcto",
+    checkEmail: "Por favor revisa tu email",
+    resetPasswordSuccessful:"Contraseña restablecida correctamente",
+    changePasswordSuccessful: "Contraseña cambiada correctamente",
   },
 });
 export default es;
