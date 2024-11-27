@@ -3,13 +3,13 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { Box } from "@mui/material";
-import { useThemeContext } from "../ThemeContext"; // Asegúrate de tener el contexto del tema
+import { useThemeContext } from "../ThemeContext";
 import { useAuth } from "../hooks/useAuth";
 
 const Layout: FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { isAuthenticated } = useAuth();
-  const { isDarkMode } = useThemeContext(); // Usamos el contexto para saber si está en modo oscuro
+  const { isDarkMode } = useThemeContext();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);

@@ -52,7 +52,7 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
       }}
     >
       <Toolbar>
-        <Box>
+        <Box sx={{ cursor: "pointer" }} onClick={() => navigate("/")}>
           <img src={itmLogo} alt="" width={200} />
         </Box>
         <IconButton

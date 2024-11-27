@@ -68,8 +68,14 @@ const es = () => ({
     emailConfirmed: "Correo Confirmado",
     successfulLogin: "Inicio de sesión correcto",
     checkEmail: "Por favor revisa tu email",
-    resetPasswordSuccessful:"Contraseña restablecida correctamente",
+    resetPasswordSuccessful: "Contraseña restablecida correctamente",
     changePasswordSuccessful: "Contraseña cambiada correctamente",
+    registerApplicantHere: "¿No eres aspirante aún? Regístrate aquí",
+    applicantId: "Documento del aspirante",
+    enrollmentDescription: "Te vas a inscribir en el programa de ",
+    enrollment: "Inscripcion",
+    enrollmentHere: "Inscribete acá",
+    applicantRegister: "Registro de aspirante"
   },
 });
 export default es;

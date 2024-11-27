@@ -2,43 +2,35 @@ import i18n from "../i18n";
 import httpService from "../services/httpService";
 
 const genericRepository = (method: string) => ({
-  get: async (
-    params = null,
-    enqueueSnackbar?: any,
-    message = "Data fetched successfully"
-  ) => {
+  get: async (params = null, enqueueSnackbar?: any, message?) => {
     return await handleOperation(
       () => httpService.get(method, params),
       message,
       enqueueSnackbar
     );
   },
-  getById: async (
-    id,
-    enqueueSnackbar?: any,
-    message = "Data fetched successfully"
-  ) => {
+  getById: async (id, enqueueSnackbar?: any, message) => {
     return await handleOperation(
       () => httpService.get(`${method}/${id}`),
       message,
       enqueueSnackbar
     );
   },
-  post: async (body, enqueueSnackbar?: any, message = "Request successful") => {
+  post: async (body, enqueueSnackbar?: any, message) => {
     return await handleOperation(
       () => httpService.post(method, body),
       message,
       enqueueSnackbar
     );
   },
-  put: async (body, enqueueSnackbar?: any, message = "Update successful") => {
+  put: async (body, enqueueSnackbar?: any, message) => {
     return await handleOperation(
       () => httpService.put(method, body),
       message,
       enqueueSnackbar
     );
   },
-  delete: async (enqueueSnackbar?: any, message = "Delete successful") => {
+  delete: async (enqueueSnackbar?: any, message) => {
     return await handleOperation(
       () => httpService.delete(method),
       message,
@@ -50,11 +42,12 @@ const genericRepository = (method: string) => ({
 const handleOperation = async (operation, successMessage, enqueueSnackbar) => {
   try {
     const data = await operation();
-    if (enqueueSnackbar)
+    if (enqueueSnackbar && successMessage)
       enqueueSnackbar(successMessage, { variant: "success" });
     return data;
   } catch (error: string) {
-    if (enqueueSnackbar) enqueueSnackbar(i18n.t(error.message), { variant: "error" });
+    if (enqueueSnackbar)
+      enqueueSnackbar(i18n.t(error.message), { variant: "error" });
     throw error;
   }
 };

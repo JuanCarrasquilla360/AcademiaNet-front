@@ -70,6 +70,12 @@ const en = () => ({
     checkEmail: "Please check your email",
     resetPasswordSuccessful: "Password Reseted Successfully",
     changePasswordSuccessful: "Password changed Successfully",
+    registerApplicantHere: "Not a applicant yet? Register here",
+    applicantId: "Applicant Id number",
+    enrollmentDescription: "You are going to enroll in the ",
+    enrollment: "Enrollment",
+    enrollmentHere: "Enrollment Here",
+    applicantRegister: "Applicant Register"
   },
 });
 export default en;

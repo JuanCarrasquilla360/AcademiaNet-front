@@ -1,5 +1,4 @@
 import axios from "axios";
-import i18n from "../i18n";
 
 const baseURL = "https://localhost:7241/api/";
 export const axiosInstance = axios.create({
@@ -50,13 +49,10 @@ const httpService = {
       const response = await axiosInstance[method](url, data || config);
       return response.data;
     } catch (error) {
-      console.log(error.message);
-
       const errorMessage =
         error.response?.data.code
           ? error.response?.data.code
           : "something_went_wrong";
-      console.log(errorMessage);
       throw new Error(errorMessage);
     }
   },

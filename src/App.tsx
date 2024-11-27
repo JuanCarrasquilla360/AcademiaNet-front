@@ -18,7 +18,9 @@ import RegisterForm from "./pages/Register/RegisterForm";
 import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
 import EditProfileForm from "./pages/EditProfile/EditProfileForm";
 import ResetPasswordView from "./pages/ResetPassword/ResetPassword";
-import ChooseAcadProgram from "./pages/ChooseAcadProgram";
+import AcadProgramList from "./pages/AcadProgramList";
+import ChooseAcProgram from "./pages/ChooseAcProgram";
+import RegisterApplicant from "./pages/RegisterApplicant";
 
 const App: FC = () => {
   return (
@@ -34,8 +36,10 @@ const App: FC = () => {
               <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/choose-academic-programs/:id" element={<ChooseAcadProgram />} />
+                <Route path="/academic-programs-list/:id" element={<AcadProgramList />} />
+                <Route path="/choose-academic-program/:id" element={<ChooseAcProgram />} />
                 <Route path="/register" element={<RegisterForm />} />
+                <Route path="/register-applicant" element={<RegisterApplicant />} />
                 <Route
                   path="/api/Accounts/ConfirmEmail"
                   element={<ConfirmEmail />}
