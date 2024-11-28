@@ -32,7 +32,7 @@ const App: FC = () => {
         autoHideDuration={4000}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <BrowserRouter basename="/AcademiaNet">
+        <BrowserRouter basename="/AcademiaNet-front">
           <AuthProvider>
             <Routes>
               <Route path="/" element={<Layout />}>
