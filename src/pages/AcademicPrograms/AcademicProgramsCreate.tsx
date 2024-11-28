@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -87,7 +88,7 @@ const AcademicProgramsCreate: FC = () => {
     try {
       const data = await institutionRepository().get();
       setInstitutionOpts(
-        data.map((institution) => ({
+        data.map((institution: { name: any; institutionID: any; }) => ({
           label: institution.name,
           value: institution.institutionID,
         }))

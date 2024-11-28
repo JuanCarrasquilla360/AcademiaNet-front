@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,7 +21,9 @@ const NotificationList = () => {
     setLoading(true);
     try {
       const data = await academicExamRepository().get();
-      setRows(data.map((exam) => ({ ...exam, id: exam.examID })));
+      setRows(
+        data.map((exam: { examID: any }) => ({ ...exam, id: exam.examID }))
+      );
     } catch (error) {
       console.log(error);
     } finally {

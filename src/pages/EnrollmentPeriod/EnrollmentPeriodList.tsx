@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import DataGridCustom from "../../components/DataGridCustom";
 import { useTranslation } from "react-i18next";
 
@@ -41,18 +42,29 @@ const EnrollmentPeriodList = () => {
     try {
       const data = await enrollmentPeriodsRepository().get();
       setRows(
-        data.map((ep) => ({
-          ...ep,
-          id: ep.enrollmentPeriodID,
-          startDateEnrollment: moment(ep.startDateEnrollment).format(
-            "YYYY-DD-MM"
-          ),
-          endDateEnrollment: moment(ep.endDateEnrollment).format("YYYY-DD-MM"),
-          startDateExam: moment(ep.startDateExam).format("YYYY-DD-MM"),
-          endDateExam: moment(ep.endDateExam).format("YYYY-DD-MM"),
-          
-          name: ep.periodName,
-        }))
+        data.map(
+          (ep: {
+            enrollmentPeriodID: any;
+            startDateEnrollment: moment.MomentInput;
+            endDateEnrollment: moment.MomentInput;
+            startDateExam: moment.MomentInput;
+            endDateExam: moment.MomentInput;
+            periodName: any;
+          }) => ({
+            ...ep,
+            id: ep.enrollmentPeriodID,
+            startDateEnrollment: moment(ep.startDateEnrollment).format(
+              "YYYY-DD-MM"
+            ),
+            endDateEnrollment: moment(ep.endDateEnrollment).format(
+              "YYYY-DD-MM"
+            ),
+            startDateExam: moment(ep.startDateExam).format("YYYY-DD-MM"),
+            endDateExam: moment(ep.endDateExam).format("YYYY-DD-MM"),
+
+            name: ep.periodName,
+          })
+        )
       );
     } catch (error) {
       console.log(error);

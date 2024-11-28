@@ -1,4 +1,5 @@
-import { useNavigate, useParams } from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useParams } from "react-router-dom";
 import {
   Box,
   Card,
@@ -130,7 +131,7 @@ const AcadProgramList = () => {
                   component="img"
                   image={program.photo || defaultImage}
                   alt={program.name}
-                  onError={(e) => (e.target.src = defaultImage)}
+                  onError={(e: any) => (e.target.src = defaultImage)}
                   sx={{
                     width: 120,
                     height: 120,

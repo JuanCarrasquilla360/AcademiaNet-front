@@ -9,8 +9,8 @@ const ConfirmEmail = () => {
   const { t } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  const userId = searchParams.get("userid");
-  const token = searchParams.get("token");
+  const userId = searchParams.get("userid") || "";
+  const token = searchParams.get("token") || "";
 
   const handleConfirm = async () => {
     await accountsRepository(`ConfirmEmail`).get(

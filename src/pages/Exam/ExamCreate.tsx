@@ -172,4 +172,4 @@ const ExamCreate: FC = () => {
   );
 };
 
-export default ExamResultCreate;
+export default ExamCreate;

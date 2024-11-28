@@ -44,7 +44,7 @@ const EditProfileForm = () => {
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
 
   // Función para convertir archivo a base64
-  const convertToBase64 = (file) => {
+  const convertToBase64 = (file: Blob) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -105,7 +105,7 @@ const EditProfileForm = () => {
 
   // Función para cargar una nueva imagen
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0]; // Tomar el archivo del input
+    const file = event.target.files![0]; // Tomar el archivo del input
     if (file) {
       formik.setFieldValue("image", file); // Establecer el archivo en formik
       const previewUrl = URL.createObjectURL(file); // Generar URL temporal para previsualizar la imagen

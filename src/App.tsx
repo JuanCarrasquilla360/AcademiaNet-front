@@ -24,6 +24,8 @@ import RegisterApplicant from "./pages/RegisterApplicant";
 
 const App: FC = () => {
   return (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <SnackbarProvider
         maxSnack={3}
@@ -36,10 +38,19 @@ const App: FC = () => {
               <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/academic-programs-list/:id" element={<AcadProgramList />} />
-                <Route path="/choose-academic-program/:id" element={<ChooseAcProgram />} />
+                <Route
+                  path="/academic-programs-list/:id"
+                  element={<AcadProgramList />}
+                />
+                <Route
+                  path="/choose-academic-program/:id"
+                  element={<ChooseAcProgram />}
+                />
                 <Route path="/register" element={<RegisterForm />} />
-                <Route path="/register-applicant" element={<RegisterApplicant />} />
+                <Route
+                  path="/register-applicant"
+                  element={<RegisterApplicant />}
+                />
                 <Route
                   path="/api/Accounts/ConfirmEmail"
                   element={<ConfirmEmail />}

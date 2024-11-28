@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useTranslation } from "react-i18next";
 import DataGridCustom from "../../components/DataGridCustom";
 import { useEffect, useState } from "react";
@@ -19,7 +20,7 @@ const AcademicProgramsList = () => {
     setLoading(true)
     try {
       const data = await academicProgramRepository().get();
-      setRows(data.map((ap) => ({ ...ap, id: ap.academicProgramID })));
+      setRows(data.map((ap: { academicProgramID: any; }) => ({ ...ap, id: ap.academicProgramID })));
     } catch (error) {
       console.log(error);
     } finally {

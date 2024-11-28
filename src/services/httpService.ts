@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
 const baseURL = "https://localhost:7241/api/";
@@ -48,11 +49,10 @@ const httpService = {
       const config = params ? { params } : {};
       const response = await axiosInstance[method](url, data || config);
       return response.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data.code
-          ? error.response?.data.code
-          : "something_went_wrong";
+    } catch (error: any) {
+      const errorMessage = error.response?.data.code
+        ? error.response?.data.code
+        : "something_went_wrong";
       throw new Error(errorMessage);
     }
   },

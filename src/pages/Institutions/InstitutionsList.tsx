@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import DataGridCustom from "../../components/DataGridCustom";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
@@ -21,7 +22,7 @@ const InstitutionsList = () => {
     try {
       const data = await institutionRepository().get();
       setRows(
-        data.map((institution) => ({
+        data.map((institution: { institutionID: any; }) => ({
           ...institution,
           id: institution.institutionID,
         }))

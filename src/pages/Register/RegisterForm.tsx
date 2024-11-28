@@ -55,7 +55,7 @@ const RegisterForm = () => {
     image: null,
   });
   const cities = ["Bogotá", "Cali", "Medellín", "Barranquilla"];
-  const convertToBase64 = (file) => {
+  const convertToBase64 = (file: Blob) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
