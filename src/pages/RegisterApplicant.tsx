@@ -5,14 +5,14 @@ import { TextField, Button, Box, Typography, Grid } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "notistack";
 import i18n from "../i18n";
-import accountsRepository from "../repositories/accountsRepository";
 import { useThemeContext } from "../ThemeContext";
+import applicantRepository from "../repositories/applicantRepository";
 
 // Esquema de validación con Yup
 const validationSchema = Yup.object({
   firstName: Yup.string().required(i18n.t("required")),
   lastName: Yup.string().required(i18n.t("required")),
-  applicantId: Yup.string().required(i18n.t("required")),
+  documentNumber: Yup.string().required(i18n.t("required")),
   email: Yup.string()
     .email(i18n.t("invalidEmail"))
     .required(i18n.t("required")),
@@ -25,7 +25,7 @@ const RegisterApplicant = () => {
   const [initialValues] = useState({
     firstName: "",
     lastName: "",
-    applicantId: "",
+    documentNumber: "",
     email: "",
     institution: "",
     location: "",
@@ -39,19 +39,15 @@ const RegisterApplicant = () => {
     validationSchema,
     onSubmit: async (values) => {
       const dataToSubmit = {
-        FirstName: values.firstName,
-        LastName: values.lastName,
-        applicantId: values.applicantId,
-        Email: values.email,
+        fullName: values.firstName + values.lastName,
+        documentNumber: values.documentNumber,
+        email: values.email,
       };
-
-      console.log("Datos enviados:", dataToSubmit);
-
       // Envía los datos al backend
-      await accountsRepository("CreateUser").post(
+      await applicantRepository().post(
         dataToSubmit,
         enqueueSnackbar,
-        t("userCreated")
+        t("applicantCreated")
       );
     },
     validateOnBlur: false,
@@ -97,17 +93,18 @@ const RegisterApplicant = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              id="applicantId"
-              name="applicantId"
+              id="documentNumber"
+              name="documentNumber"
               label={t("applicantId")}
-              value={formik.values.applicantId}
+              value={formik.values.documentNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={
-                formik.touched.applicantId && Boolean(formik.errors.applicantId)
+                formik.touched.documentNumber &&
+                Boolean(formik.errors.documentNumber)
               }
               helperText={
-                formik.touched.applicantId && formik.errors.applicantId
+                formik.touched.documentNumber && formik.errors.documentNumber
               }
             />
           </Grid>

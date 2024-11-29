@@ -51,6 +51,8 @@ const handleOperation = async (
       enqueueSnackbar(successMessage, { variant: "success" });
     return data;
   } catch (error: any) {
+    console.log(error);
+    
     if (enqueueSnackbar)
       enqueueSnackbar(i18n.t(error.message), { variant: "error" });
     throw error;

@@ -50,8 +50,10 @@ const httpService = {
       const response = await axiosInstance[method](url, data || config);
       return response.data;
     } catch (error: any) {
-      const errorMessage = error.response?.data.code
-        ? error.response?.data.code
+      console.log(error);
+
+      const errorMessage = error.response?.data
+        ? error.response?.data
         : "something_went_wrong";
       throw new Error(errorMessage);
     }

@@ -36,7 +36,7 @@ const DataGridCustom = ({ columns, rows, title, filterColumns }: IDatagrid) => {
         />
         <Button
           variant="contained"
-          onClick={() => navigate(`${window.location.pathname}/create`)}
+          onClick={() => navigate(`create`)}
         >
           {t("create")}
         </Button>
@@ -46,7 +46,7 @@ const DataGridCustom = ({ columns, rows, title, filterColumns }: IDatagrid) => {
         columns={columns}
         pagination
         onRowClick={(row) =>
-          navigate(`${window.location.pathname}/create/${row.id}`)
+          navigate(`create/${row.id}`)
         }
         pageSizeOptions={[10, 20, 50]}
         initialState={{

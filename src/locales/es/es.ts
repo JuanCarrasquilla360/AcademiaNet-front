@@ -75,7 +75,9 @@ const es = () => ({
     enrollmentDescription: "Te vas a inscribir en el programa de ",
     enrollment: "Inscripcion",
     enrollmentHere: "Inscribete acá",
-    applicantRegister: "Registro de aspirante"
+    applicantRegister: "Registro de aspirante",
+    applicantCreated: "Aspirante creado exitosamente",
+    ERR006: "Email o contraseña incorrectos",
   },
 });
 export default es;

@@ -110,7 +110,7 @@ const AcadProgramList = () => {
               sx={{ cursor: "pointer" }}
               onClick={() => {
                 setOpenEnrollmentModal(true);
-                setSelectedInstitution(program.institutionName);
+                setSelectedInstitution(program.name);
                 setSelectedProgramId(program.academicProgramID);
               }}
               item
@@ -176,7 +176,7 @@ const AcadProgramList = () => {
         <EnrollmentModal
           open={openEnrollmentModal}
           handleClose={() => setOpenEnrollmentModal(false)}
-          institutionName={selectedInstitution}
+          programName={selectedInstitution}
           academicProgramID={selectedProgramId}
         />
       )}

@@ -1,7 +1,7 @@
 import genericRepository from "./genericRepository";
 
 const applicantRepository = () => {
-  return { ...genericRepository("Applicant") };
+  return { ...genericRepository("Applicants") };
 };
 
 export default applicantRepository;

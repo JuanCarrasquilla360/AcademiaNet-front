@@ -15,7 +15,7 @@ import institutionRepository from "../repositories/institutionRepository";
 import LoadingComponent from "../components/LoadingComponent";
 import { useSnackbar } from "notistack";
 interface Institution {
-  id: number;
+  institutionID: number;
   name: string;
   photo?: string;
 }
@@ -33,19 +33,19 @@ const Home: FC = () => {
   const [institutions, setInstitutions] = useState<
     InstitutionGridProps["institutions"]
   >([
-    { id: 1, name: "itm", photo: undefined },
-    { id: 2, name: "itm", photo: undefined },
-    { id: 3, name: "itm", photo: undefined },
-    { id: 4, name: "itm", photo: undefined },
+    { institutionID: 1, name: "itm", photo: undefined },
+    { institutionID: 2, name: "itm", photo: undefined },
+    { institutionID: 3, name: "itm", photo: undefined },
+    { institutionID: 4, name: "itm", photo: undefined },
     {
-      id: 5,
+      institutionID: 5,
       name: "itm",
       photo:
         "https://academianetitm.blob.core.windows.net/users/cca0ba7c-9dd0-4b72-b151-5f4c59c352b1.jpg",
     },
-    { id: 6, name: "itm", photo: undefined },
-    { id: 7, name: "itm", photo: undefined },
-    { id: 8, name: "itm", photo: undefined },
+    { institutionID: 6, name: "itm", photo: undefined },
+    { institutionID: 7, name: "itm", photo: undefined },
+    { institutionID: 8, name: "itm", photo: undefined },
   ]);
 
   const getInstitutions = async () => {
@@ -58,7 +58,7 @@ const Home: FC = () => {
       setInstitutions(
         data.map((institution) => ({
           ...institution,
-          id: institution.id,
+          id: institution.institutionID,
         }))
       );
     } catch (error) {
@@ -103,7 +103,7 @@ const Home: FC = () => {
           {institutions.map((institution) => (
             <Grid
               onClick={() =>
-                navigate(`/academic-programs-list/${institution.id}`)
+                navigate(`/academic-programs-list/${institution.institutionID}`)
               }
               sx={{ cursor: "pointer" }}
               item
@@ -111,7 +111,7 @@ const Home: FC = () => {
               sm={6}
               md={4}
               lg={3}
-              key={institution.id}
+              key={institution.institutionID}
             >
               <Card
                 sx={{

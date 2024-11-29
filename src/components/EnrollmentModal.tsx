@@ -11,13 +11,13 @@ interface LoginProps {
   open: boolean;
   handleClose: Dispatch<SetStateAction<boolean>>;
   academicProgramID: string;
-  institutionName: string;
+  programName: string;
 }
 
 const EnrollmentModal: FC<LoginProps> = ({
   open,
   handleClose,
-  institutionName,
+  programName,
   academicProgramID,
 }) => {
   const { t } = useTranslation();
@@ -34,10 +34,11 @@ const EnrollmentModal: FC<LoginProps> = ({
     onSubmit: async ({ applicantId }) => {
       setIsLoading(true);
       try {
-        console.log(applicantId);
-        console.log(academicProgramID);
-        console.log(institutionName);
-        // handleClose(true);
+        const body = {
+          documentNumber: applicantId,
+          academicProgramID,
+        };
+        console.log(body);
       } catch (error) {
         console.log("Credenciales incorrectas.", error);
       } finally {
@@ -76,7 +77,7 @@ const EnrollmentModal: FC<LoginProps> = ({
 
           <Typography align="center">
             {t("enrollmentDescription")}
-            {institutionName}
+            {programName}
           </Typography>
 
           <TextField

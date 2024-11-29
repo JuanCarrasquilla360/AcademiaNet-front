@@ -75,7 +75,9 @@ const en = () => ({
     enrollmentDescription: "You are going to enroll in the ",
     enrollment: "Enrollment",
     enrollmentHere: "Enrollment Here",
-    applicantRegister: "Applicant Register"
+    applicantRegister: "Applicant Register",
+    applicantCreated: "Applicant Created Successfully",
+    ERR006: "Incorrect email or password"
   },
 });
 export default en;

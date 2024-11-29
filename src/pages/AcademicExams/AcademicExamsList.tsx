@@ -21,7 +21,9 @@ const AcademicExamsList = () => {
     setLoading(true);
     try {
       const data = await academicExamRepository().get();
-      setRows(data.map((exam: { examID: any; }) => ({ ...exam, id: exam.examID })));
+      setRows(
+        data.map((exam: { examID: any }) => ({ ...exam, id: exam.examID }))
+      );
     } catch (error) {
       console.log(error);
     } finally {
