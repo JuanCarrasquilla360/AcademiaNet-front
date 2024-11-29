@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
@@ -32,7 +32,7 @@ const App: FC = () => {
         autoHideDuration={4000}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <BrowserRouter>
+        <HashRouter>
           <AuthProvider>
             <Routes>
               <Route path="/" element={<Layout />}>
@@ -125,7 +125,7 @@ const App: FC = () => {
               </Route>
             </Routes>
           </AuthProvider>
-        </BrowserRouter>
+        </HashRouter>
       </SnackbarProvider>
     </LocalizationProvider>
   );
