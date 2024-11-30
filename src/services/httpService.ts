@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
-// const baseURL = "https://localhost:7241/api/";
-const baseURL = "https://academianetbackend.azurewebsites.net/api/";
+const baseURL = "https://localhost:7241/api/";
+// const baseURL = "https://academianetbackend.azurewebsites.net/api/";
 export const axiosInstance = axios.create({
   baseURL,
   timeout: 30000,

@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export default function useAxios() {
-  const baseURL = "https://academianetbackend.azurewebsites.net/api/";
-  // const baseURL = "https://localhost:7241/api/";
+  // const baseURL = "https://academianetbackend.azurewebsites.net/api/";
+  const baseURL = "https://localhost:7241/api/";
   const axiosInstance = axios.create({
     baseURL,
     timeout: 30000,
